@@ -1,10 +1,18 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <TopBar />
+  <router-view />
 </template>
+
+<script>
+import TopBar from '@/components/TopBar';
+
+export default {
+  name: 'App',
+  components: {
+    TopBar,
+  }
+}
+</script>
 
 <style>
 #app {
@@ -15,16 +23,31 @@
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+.btn {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.btn:focus {
+  outline: none;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.btn:active {
+  transform: scale(0.98);
 }
+
+.btn-block {
+  display: block;
+  width: 80%;
+}
+
 </style>

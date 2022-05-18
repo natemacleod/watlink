@@ -1,18 +1,58 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <SidePane @submit-event="addNewEvent" />
+    <EventView :events="events"/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import EventView from '@/components/EventView';
+import SidePane from '@/components/SidePane';
+import { db } from '@/firebaseInit';
+import { collection, getDocs, addDoc } from "firebase/firestore";
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
+    SidePane,
+    EventView,
+  },
+  data() {
+    return {
+      events: [],
+    }
+  },
+  methods: {
+    async addNewEvent(e) {
+      try {
+        const docRef = await addDoc(collection(db, "events"), {
+          title: e.title,
+          desc: e.desc,
+          time: e.time,
+        });
+
+        this.events.push({
+          id: docRef.id,
+          title: e.title,
+          desc: e.desc,
+          time: e.time,
+        });
+
+      } catch (err) {
+        console.error("Error adding document: ", err);
+      }
+    },
+  },
+  async created() {
+    const querySnapshot = await getDocs(collection(db, "events"));
+    querySnapshot.forEach((doc) => {
+      this.events.push({
+        id: doc.id,
+        title: doc.data().title,
+        desc: doc.data().desc,
+        time: doc.data().time,
+      });
+    });
   }
 }
 </script>
