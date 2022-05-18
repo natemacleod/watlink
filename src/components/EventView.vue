@@ -3,13 +3,11 @@
     <div class="event" :key="event.id" v-for="event in events">
         <EventInfo :event="event" />
     </div>
-    <!--<AddBtn @add-event="$emit('add-event')" />-->
 </div>
 </template>
 
 <script>
 import EventInfo from '@/components/EventInfo';
-//import AddBtn from '@/components/AddBtn';
 
 export default {
     name: 'EventView',
@@ -18,9 +16,7 @@ export default {
     },
     components: {
         EventInfo,
-        //AddBtn
     },
-    //emits: ['add-event'],
 }
 </script>
 
@@ -32,6 +28,7 @@ export default {
     border: 1px solid green;
     height: 90vh;
     overflow: auto;
+    align-items: flex-start;
 }
 
 .event {

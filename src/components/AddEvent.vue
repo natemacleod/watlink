@@ -1,23 +1,19 @@
 <template>
-    <div class="add-form">
-        <form @submit="onSubmit">
-            <div class="form-control">
-                <label>Title</label>
-                <input type="text" v-model="title" name="title" placeholder="Add Title" />
-            </div>
-            <div class="form-control">
-                <label>Day & Time</label>
-                <input type="text" v-model="time" name="day/time" placeholder="Add Day & Time" />
-            </div>
-            <div class="form-control">
-                <label>Description</label>
-                <input type="text" v-model="desc" name="desc" placeholder="Add Description" />
-            </div>
-
-            <input type="submit" value="Save Event" class="btn btn-block" />
-        </form>
-        <button id="close" @click="openSe" class="btn btn-block">Close</button>
-    </div>
+    <form id="addForm">
+        <span class="p-float-label">
+            <InputText class="spacing" id="title" type="text" v-model="title" />
+            <label for="title">Event Title</label>
+        </span>
+        <span class="p-float-label">
+            <InputText class="spacing" id="time" type="text" v-model="time" />
+            <label for="time">Date & Time</label>
+        </span>
+        <span class="p-float-label">
+            <InputText class="spacing" id="desc" type="text" v-model="desc" />
+            <label for="desc">Description</label>
+        </span>
+        <PrimeButton label="Submit" class="spacing" icon="pi pi-check" @click="onSubmit" />
+    </form>
 </template>
 
 <script>
@@ -53,44 +49,14 @@ export default {
 </script>
 
 <style scoped>
-.add-form {
-    margin-bottom: 40px;
-    border: 1px solid orange;
-}
-
-#close {
-    padding: 10px;
-    margin: 20px;
-}
-
-.form-control {
-    margin: 20px 0;
-}
-
-.form-control label {
-    display: block;
-}
-
-.form-control input {
-    width: 80%;
-    height: 40px;
-    margin: 5px;
-    padding: 3px 7px;
-    font-size: 17px;
-}
-
-.form-control-check {
-    display: flex;
+#addForm {
+    margin: 20px 50px 30px 50px;
     align-items: center;
-    justify-content: space-between;
 }
 
-.form-control-check label {
-    flex: 1;
+.spacing {
+    margin: 15px 0;
+    min-width: 300px;
 }
 
-.form-control-check input {
-    flex: 2;
-    height: 20px;
-}
 </style>

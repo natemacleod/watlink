@@ -1,12 +1,17 @@
 <template>
+  <MenuBar :model="items" />
   <div class="home">
-    <SidePane @submit-event="addNewEvent" />
-    <EventView :events="events"/>
+    <DialogBox modal='true' header="Add Event" v-model:visible="dispAddEvent" >
+      <AddEvent @submit-event="addNewEvent"/>
+    </DialogBox>
+    <SidePane />
+    <EventView :events="events" />
   </div>
 </template>
 
 <script>
 import EventView from '@/components/EventView';
+import AddEvent from '@/components/AddEvent';
 import SidePane from '@/components/SidePane';
 import { db } from '@/firebaseInit';
 import { collection, getDocs, addDoc } from "firebase/firestore";
@@ -16,10 +21,43 @@ export default {
   components: {
     SidePane,
     EventView,
+    AddEvent,
   },
   data() {
     return {
       events: [],
+      dispAddEvent: false,
+      items: [
+        {
+          label: "Home",
+          icon: 'pi pi-fw pi-home',
+        },
+        {
+          label: 'Add',
+          icon: 'pi pi-fw pi-plus',
+          command: () => this.toggleAddEvent(),
+        },
+        {
+          label: "User",
+          icon: 'pi pi-fw pi-user',
+          items: [
+            {
+              label: 'My Profile',
+              icon: 'pi pi-fw pi-user-edit',
+
+            },
+            {
+              label: 'Sign Out',
+              icon: 'pi pi-fw pi-sign-out',
+
+            },
+          ]
+        },
+        {
+          label: 'Settings',
+          icon: 'pi pi-fw pi-cog'
+        }
+      ]
     }
   },
   methods: {
@@ -42,6 +80,9 @@ export default {
         console.error("Error adding document: ", err);
       }
     },
+    toggleAddEvent() {
+      this.dispAddEvent = !this.dispAddEvent;
+    }
   },
   async created() {
     const querySnapshot = await getDocs(collection(db, "events"));
