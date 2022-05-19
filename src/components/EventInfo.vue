@@ -12,6 +12,7 @@
     <template #footer>
         <PrimeButton icon="pi pi-pencil" label="Edit" />
         <PrimeButton icon="pi pi-trash" label="Delete" class="p-button-danger" style="margin-left: .5em" @click="deleteEvent"/>
+        <ConfirmPopup />
     </template>
 </CardContainer>
 </template>
@@ -24,7 +25,16 @@ export default {
     },
     methods: {
         deleteEvent(e) {
-            
+            this.$confirm.require({
+                target: e.currentTarget,
+                message: `Are you sure you want to delete ${this.event.title}? This is irreversible.`,
+                icon: "pi pi-exclamation-triangle",
+                accept: () => this.sendDeleteEvent(),
+                reject: null,
+            });
+        },
+        sendDeleteEvent() {
+            this.$emit('delete-event', this.event.id);
         }
     }
 }

@@ -1,11 +1,12 @@
 <template>
   <MenuBar :model="items" />
+  <ToastNotif />
   <div class="home">
     <DialogBox modal='true' header="Add Event" v-model:visible="dispAddEvent" >
       <AddEvent @submit-event="addNewEvent"/>
     </DialogBox>
     <SidePane />
-    <EventView :events="events" />
+    <EventView :events="events" @delete-event="deleteEvent" />
   </div>
 </template>
 
@@ -14,7 +15,7 @@ import EventView from '@/components/EventView';
 import AddEvent from '@/components/AddEvent';
 import SidePane from '@/components/SidePane';
 import { db } from '@/firebaseInit';
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, deleteDoc } from "firebase/firestore";
 
 export default {
   name: 'HomeView',
@@ -76,8 +77,19 @@ export default {
           time: e.time,
         });
 
+        this.dispAddEvent = false;
+
       } catch (err) {
         console.error("Error adding document: ", err);
+      }
+    },
+    async deleteEvent(id) {
+      try {
+        await deleteDoc(doc(db, "events", id));
+        this.events = this.events.filter((e) => e.id !== id);
+        this.$toast.add({severity:'success', summary: 'Success', detail:'Event was deleted successfully.', life: 3000});
+      } catch (err) {
+        console.error("Error deleting document: ", err);
       }
     },
     toggleAddEvent() {
