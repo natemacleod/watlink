@@ -38,9 +38,9 @@ app.component("ToastNotif", Toast);
 app.mount('#app');
 
 // To-Do List
-// Change left-pane-based setup to a popup-based one [IN PROGRESS]
-// Add ability to edit events
-// Add user authentication
+// Add validation for creating/editing events
+// Add validation for creating accounts
+// Add errors when you get a password wrong
 // Add profiles
 // Add other needed fields to event object
 // Add security rules for deletion and editing

@@ -21,12 +21,15 @@
 
 <script>
 export default {
-    name: "AddEvent",
+    name: "EditEvent",
+    props: {
+        event: Object,
+    },
     data() {
         return {
-            title: "",
-            time: "",
-            desc: ""
+            title: this.event.title,
+            time: this.event.time,
+            desc: this.event.desc
         }
     },
     methods: {
@@ -41,7 +44,7 @@ export default {
                 desc: this.desc
             }
 
-            this.$emit('submit-event', newEvent);
+            this.$emit('submit-edit', this.event.id, newEvent);
 
             this.title = "";
             this.time = "";

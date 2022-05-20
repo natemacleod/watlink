@@ -10,7 +10,7 @@
         {{ event.desc }}
     </template>
     <template #footer>
-        <PrimeButton icon="pi pi-pencil" label="Edit" />
+        <PrimeButton icon="pi pi-pencil" label="Edit" @click="$emit('edit-event', event)" />
         <PrimeButton icon="pi pi-trash" label="Delete" class="p-button-danger" style="margin-left: .5em" @click="deleteEvent"/>
         <ConfirmPopup />
     </template>
