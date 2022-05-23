@@ -58,7 +58,7 @@ export default {
             }
         },
         err(message) {
-            this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Error: ' + message, life: 3000 });
+            this.$toast.add({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
         }
     }
 }

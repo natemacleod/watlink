@@ -2,13 +2,13 @@
   <MenuBar :model="items" />
   <ToastNotif />
   <div class="home">
-    <DialogBox modal='true' header="Add Event" v-model:visible="dispAddEvent">
+    <DialogBox :modal='true' header="Add Event" v-model:visible="dispAddEvent">
       <AddEvent @submit-event="addNewEvent" />
     </DialogBox>
-    <DialogBox modal='true' header="Edit Event" v-model:visible="dispEditEvent">
+    <DialogBox :modal='true' header="Edit Event" v-model:visible="dispEditEvent">
       <EditEvent :event="eventToEdit" @submit-edit="editEvent" />
     </DialogBox>
-    <DialogBox modal='true' header="Sign In" v-model:visible="dispSignIn">
+    <DialogBox :modal='true' header="Sign In" v-model:visible="dispSignIn">
       <SignIn @new-user="createNewUser" @sign-in="signInUser" />
     </DialogBox>
     <SidePane />
@@ -95,7 +95,8 @@ export default {
           desc: e.desc,
           time: e.time,
           creator: this.user.uid,
-          going: [this.user.uid]
+          going: [this.user.uid],
+          maxGoing: e.maxGoing
         });
 
         this.events.push({
@@ -104,7 +105,8 @@ export default {
           desc: e.desc,
           time: e.time,
           creator: this.user.uid,
-          going: [this.user.uid]
+          going: [this.user.uid],
+          maxGoing: e.maxGoing
         });
 
         this.dispAddEvent = false;
@@ -122,7 +124,8 @@ export default {
         await updateDoc(docRef, {
           title: e.title,
           time: e.time,
-          desc: e.desc
+          desc: e.desc,
+          maxGoing: e.maxGoing
         });
 
         this.dispEditEvent = false;
@@ -136,7 +139,8 @@ export default {
               time: e.time,
               desc: e.desc,
               creator: ev.creator,
-              going: [ev.going]
+              going: [ev.going],
+              maxGoing: e.maxGoing,
             };
           } else return ev;
         });
@@ -178,6 +182,7 @@ export default {
               desc: ev.desc,
               creator: ev.creator,
               going: evGoing,
+              maxGoing: ev.maxGoing
             };
           } else return ev;
         });
@@ -211,6 +216,7 @@ export default {
               desc: ev.desc,
               creator: ev.creator,
               going: evGoing,
+              maxGoing: ev.maxGoing
             };
           } else return ev;
         });
@@ -236,19 +242,35 @@ export default {
 
     // Auth functions
     async createNewUser(email, password, name) {
+      try {
       await createUserWithEmailAndPassword(auth, email, password);
       updateProfile(this.user, { displayName: name });
       this.$toast.add({ severity: 'success', summary: 'Success', detail: `Welcome, ${this.user.displayName}!`, life: 3000 });
       this.toggleSignIn();
+      } catch (err) {
+        if (err.message === 'Firebase: Error (auth/email-already-in-use).') {
+          this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Email already in use. Did you mean to sign in?', life: 3000 });
+        } else this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred.', life: 3000 });
+      }
     },
     async signInUser(email, password) {
-      await signInWithEmailAndPassword(auth, email, password);
-      this.$toast.add({ severity: 'success', summary: 'Success', detail: `Welcome, ${this.user.displayName}!`, life: 3000 });
-      this.toggleSignIn();
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        this.$toast.add({ severity: 'success', summary: 'Success', detail: `Welcome back, ${this.user.displayName}!`, life: 3000 });
+        this.toggleSignIn();
+      } catch (err) {
+        if (err.message === 'Firebase: Error (auth/wrong-password).') {
+          this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Incorrect password.', life: 3000 });
+        } else this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred.', life: 3000 });
+      }
     },
     async signOutUser() {
-      await signOut(auth);
-      this.$toast.add({ severity: 'success', summary: 'Success', detail: 'Signed out successfully.', life: 3000 });
+      try {
+        await signOut(auth);
+        this.$toast.add({ severity: 'success', summary: 'Success', detail: 'Signed out successfully.', life: 3000 });
+      } catch (err) {
+        this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred.', life: 3000 });
+      }
     }
   },
   async created() {
@@ -261,6 +283,7 @@ export default {
         time: doc.data().time,
         creator: doc.data().creator,
         going: doc.data().going,
+        maxGoing: doc.data().maxGoing
       });
     });
     onAuthStateChanged(auth, (u) => {

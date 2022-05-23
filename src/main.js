@@ -13,6 +13,8 @@ import Card from 'primevue/card';
 import Button from 'primevue/button';
 import Menubar from 'primevue/menubar';
 import InputText from 'primevue/inputtext';
+import InputNumber from 'primevue/inputnumber';
+import Checkbox from 'primevue/checkbox';
 import ConfirmationService from 'primevue/confirmationservice';
 import ConfirmDialog from 'primevue/confirmdialog';
 import ConfirmPopup from 'primevue/confirmpopup';
@@ -35,6 +37,8 @@ app.component("ConfirmDialog", ConfirmDialog);
 app.component("ConfirmPopup", ConfirmPopup);
 app.component("ToastNotif", Toast);
 app.component("DividerLine", Divider);
+app.component("InputNumber", InputNumber);
+app.component("CheckBox", Checkbox);
 
 app.mount('#app');
 

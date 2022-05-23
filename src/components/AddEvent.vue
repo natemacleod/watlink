@@ -15,6 +15,15 @@
             <label for="desc">Description</label>
         </span>
         <br><br>
+        <div id="maxBar">
+            <label for="max" id="maxlbl">Maximum Members</label>
+            <InputNumber id="max" v-model="max" showButtons buttonLayout="horizontal" :step="1" 
+                decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" inputStyle="width:50px; text-align:center"
+                incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" :min="1" />
+            <CheckBox id="unltd" v-model="unlimited" :binary="true" style="margin: 0 10px 0 25px" />
+            <label for="unltd" id="unltdlbl">Unlimited</label>
+        </div>
+        <br><br>
         <PrimeButton class="center" label="Submit" icon="pi pi-check" @click="onSubmit" />
     </form>
 </template>
@@ -26,7 +35,9 @@ export default {
         return {
             title: "",
             time: "",
-            desc: ""
+            desc: "",
+            max: 1,
+            unlimited: false
         }
     },
     methods: {
@@ -40,7 +51,7 @@ export default {
             else if (this.time.trim().length > 150) this.err("Date/time should be 150 characters or less.");
             else {
                 if (this.time.length === 0) this.time = "No time specified";
-                
+
                 const newEvent = {
                     title: this.title,
                     time: this.time,
@@ -55,7 +66,7 @@ export default {
             }
         },
         err(message) {
-            this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Error: ' + message, life: 3000 });
+            this.$toast.add({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
         }
     },
 }
@@ -67,7 +78,25 @@ export default {
     align-items: center;
 }
 
-.spacing {
-    min-width: 300px;
+#maxBar {
+    display: flex;
+    align-items: center;
 }
+
+#maxlbl {
+    margin: 0 10px 0 0;
+}
+
+#max {
+    margin: 0 20px 0 0;
+}
+
+#unltd {
+    margin: 0 10px 0 0;
+}
+
+.spacing {
+    width: 400px;
+}
+
 </style>
