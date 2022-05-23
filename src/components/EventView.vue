@@ -1,9 +1,11 @@
 <template>
-<div id="outer">
-    <div class="event" :key="event.id" v-for="event in events">
-        <EventInfo :event="event" @delete-event="$emit('delete-event', event.id)" @edit-event="$emit('edit-event', event)" />
+    <div id="outer">
+        <div class="event" :key="event.id" v-for="event in events">
+            <EventInfo :event="event" :user="user" @delete-event="$emit('delete-event', event.id)"
+                @edit-event="$emit('edit-event', event)" @join-event="$emit('join-event', event.id)"
+                @leave-event="$emit('leave-event', event.id)" />
+        </div>
     </div>
-</div>
 </template>
 
 <script>
@@ -13,11 +15,12 @@ export default {
     name: 'EventView',
     props: {
         events: Array,
+        user: Object,
     },
     components: {
         EventInfo,
     },
-    emits: ['delete-event', 'edit-event'],
+    emits: ['delete-event', 'edit-event', 'join-event', 'leave-event'],
 }
 </script>
 
@@ -33,10 +36,8 @@ export default {
 }
 
 .event {
-    padding: 10px;
     margin: 1%;
     border: 1px solid blue;
-    border-radius: 20px;
     overflow: hidden;
     width: 400px;
     height: 500px;

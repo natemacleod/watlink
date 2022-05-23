@@ -18,6 +18,7 @@ import ConfirmDialog from 'primevue/confirmdialog';
 import ConfirmPopup from 'primevue/confirmpopup';
 import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
+import Divider from 'primevue/divider';
 
 const app = createApp(App);
 app.use(router);
@@ -33,19 +34,16 @@ app.component("InputText", InputText);
 app.component("ConfirmDialog", ConfirmDialog);
 app.component("ConfirmPopup", ConfirmPopup);
 app.component("ToastNotif", Toast);
-
+app.component("DividerLine", Divider);
 
 app.mount('#app');
 
 // To-Do List
-// Add validation for creating/editing events
 // Add validation for creating accounts
 // Add errors when you get a password wrong
 // Add profiles
-// Add other needed fields to event object
-// Add security rules for deletion and editing
-// Add ability to join events (and make it show up on the event)
-// Add ability to leave events (but not if you're the creator)
+// Add other needed fields to event object [IN PROGRESS]
+// Add security rules for deletion and editing [DONE ON FRONTEND]
 // Block joining if it would violate the max number of people
 // Create search settings and add logic
 // Style site [IN PROGRESS]

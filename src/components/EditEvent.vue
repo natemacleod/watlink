@@ -36,19 +36,29 @@ export default {
         onSubmit(e) {
             e.preventDefault();
 
-            // TODO: error control
+            if (this.title.trim().length === 0) this.err("You must include a title.");
+            else if (this.title.length > 50) this.err("Title should be 50 characters or less.");
+            else if (this.desc.trim().length === 0) this.err("You must include a description.");
+            else if (this.desc.length > 500) this.err("Description should be 500 characters or less.");
+            else if (this.time.trim().length > 150) this.err("Date/time should be 150 characters or less.");
+            else {
+                if (this.time.length === 0) this.time = "No time specified";
+                
+                const newEvent = {
+                    title: this.title,
+                    time: this.time,
+                    desc: this.desc
+                }
 
-            const newEvent = {
-                title: this.title,
-                time: this.time,
-                desc: this.desc
+                this.$emit('submit-edit', this.event.id, newEvent);
+
+                this.title = "";
+                this.time = "";
+                this.desc = "";
             }
-
-            this.$emit('submit-edit', this.event.id, newEvent);
-
-            this.title = "";
-            this.time = "";
-            this.desc = "";
+        },
+        err(message) {
+            this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Error: ' + message, life: 3000 });
         }
     }
 }

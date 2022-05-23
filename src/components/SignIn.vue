@@ -1,5 +1,6 @@
 <template>
-    <form id="signInForm">
+<div id="box">
+    <form id="signInForm" class="authForm">
         <h3>Sign In</h3>
         <span class="p-float-label">
             <InputText class="spacing" id="email" type="email" v-model="email" />
@@ -13,7 +14,8 @@
         <br><br>
         <PrimeButton class="center" label="Sign In" icon="pi pi-sign-in" @click="onSubmit" />
     </form>
-    <form id="createForm">
+    <DividerLine layout="vertical" class="authForm" />
+    <form id="createForm" class="authForm">
         <h3>or Create an Account</h3>
         <span class="p-float-label">
             <InputText class="spacing" id="cemail" type="email" v-model="cemail" />
@@ -37,6 +39,7 @@
         <br><br>
         <PrimeButton class="center" label="Create Account" icon="pi pi-check" @click="createAccount" />
     </form>
+</div>
 </template>
 
 <script>
@@ -55,8 +58,11 @@ export default {
     methods: {
         onSubmit(e) {
             e.preventDefault();
+            let re = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/i);
 
-            // TODO: error control
+            if (this.email.trim().length === 0) this.err("You must include an email address.");
+            else if (!re.test(this.email)) this.err("Invalid email.");
+            else if (this.pass.length < 8) this.err("Password should be 8 or more characters.");
 
             this.$emit('sign-in', this.email, this.pass);
 
@@ -85,6 +91,23 @@ export default {
             this.cpass2 = '';
             this.cname = '';
         },
+        err(message) {
+            this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Error: ' + message, life: 3000 });
+        }
     }
 }
 </script>
+
+<style scoped>
+#box {
+    display: flex;
+}
+
+.authForm {
+    margin: 30px;
+}
+
+.spacing {
+    min-width: 300px;
+}
+</style>

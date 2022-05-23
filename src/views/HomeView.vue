@@ -9,10 +9,11 @@
       <EditEvent :event="eventToEdit" @submit-edit="editEvent" />
     </DialogBox>
     <DialogBox modal='true' header="Sign In" v-model:visible="dispSignIn">
-      <SignIn @new-user="createNewUser" @sign-in="signInUser"/>
+      <SignIn @new-user="createNewUser" @sign-in="signInUser" />
     </DialogBox>
     <SidePane />
-    <EventView :events="events" @delete-event="deleteEvent" @edit-event="toggleEditEvent" />
+    <EventView :events="events" :user="user" @delete-event="deleteEvent" @edit-event="toggleEditEvent"
+      @join-event="joinEvent" @leave-event="leaveEvent" />
   </div>
 </template>
 
@@ -23,7 +24,7 @@ import EditEvent from '@/components/EditEvent';
 import SidePane from '@/components/SidePane';
 import SignIn from '@/components/SignIn';
 import { db, auth } from '@/firebaseInit';
-import { collection, getDocs, addDoc, doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, getDoc, addDoc, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from '@firebase/auth';
 
 export default {
@@ -54,6 +55,7 @@ export default {
           label: 'Add',
           icon: 'pi pi-fw pi-plus',
           command: () => this.toggleAddEvent(),
+          visible: () => this.user !== null,
         },
         {
           label: "Sign In",
@@ -85,12 +87,15 @@ export default {
     }
   },
   methods: {
+    // Event functions
     async addNewEvent(e) {
       try {
         const docRef = await addDoc(collection(db, "events"), {
           title: e.title,
           desc: e.desc,
           time: e.time,
+          creator: this.user.uid,
+          going: [this.user.uid]
         });
 
         this.events.push({
@@ -98,6 +103,8 @@ export default {
           title: e.title,
           desc: e.desc,
           time: e.time,
+          creator: this.user.uid,
+          going: [this.user.uid]
         });
 
         this.dispAddEvent = false;
@@ -127,7 +134,9 @@ export default {
               id: ev.id,
               title: e.title,
               time: e.time,
-              desc: e.desc
+              desc: e.desc,
+              creator: ev.creator,
+              going: [ev.going]
             };
           } else return ev;
         });
@@ -149,6 +158,71 @@ export default {
         this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Please try again.', life: 3000 });
       }
     },
+    async joinEvent(id) {
+      try {
+        const event = doc(db, "events", id);
+        const eventSnap = await getDoc(event);
+        const evGoing = await eventSnap.data().going;
+        evGoing.push(this.user.uid);
+
+        await updateDoc(event, {
+          going: arrayUnion(this.user.uid)
+        });
+
+        this.events = this.events.map(function (ev) {
+          if (ev.id === id) {
+            return {
+              id: ev.id,
+              title: ev.title,
+              time: ev.time,
+              desc: ev.desc,
+              creator: ev.creator,
+              going: evGoing,
+            };
+          } else return ev;
+        });
+
+        this.$toast.add({ severity: 'success', summary: 'Success', detail: 'You have joined ' + await eventSnap.data().title, life: 3000 });
+      } catch (err) {
+        console.error("Error joining event: ", err);
+        this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Please try again.', life: 3000 });
+      }
+    },
+    async leaveEvent(id) {
+      try {
+        const event = doc(db, "events", id);
+        const eventSnap = await getDoc(event);
+        const evGoing = await eventSnap.data().going;
+
+        for (let i = 0; i < evGoing.length; i++) {
+          if (evGoing[i] === this.user.uid) evGoing.splice(i, 1);
+        }
+
+        await updateDoc(event, {
+          going: arrayRemove(this.user.uid)
+        });
+
+        this.events = this.events.map(function (ev) {
+          if (ev.id === id) {
+            return {
+              id: ev.id,
+              title: ev.title,
+              time: ev.time,
+              desc: ev.desc,
+              creator: ev.creator,
+              going: evGoing,
+            };
+          } else return ev;
+        });
+
+        this.$toast.add({ severity: 'success', summary: 'Success', detail: 'You have left ' + await eventSnap.data().title, life: 3000 });
+      } catch (err) {
+        console.error("Error joining event: ", err);
+        this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Please try again.', life: 3000 });
+      }
+    },
+
+    // Toggles
     toggleAddEvent() {
       this.dispAddEvent = !this.dispAddEvent;
     },
@@ -159,9 +233,11 @@ export default {
     toggleSignIn() {
       this.dispSignIn = !this.dispSignIn;
     },
+
+    // Auth functions
     async createNewUser(email, password, name) {
       await createUserWithEmailAndPassword(auth, email, password);
-      updateProfile(this.user, {displayName: name});
+      updateProfile(this.user, { displayName: name });
       this.$toast.add({ severity: 'success', summary: 'Success', detail: `Welcome, ${this.user.displayName}!`, life: 3000 });
       this.toggleSignIn();
     },
@@ -183,6 +259,8 @@ export default {
         title: doc.data().title,
         desc: doc.data().desc,
         time: doc.data().time,
+        creator: doc.data().creator,
+        going: doc.data().going,
       });
     });
     onAuthStateChanged(auth, (u) => {
