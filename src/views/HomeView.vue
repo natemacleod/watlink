@@ -69,7 +69,7 @@ export default {
           items: [
             {
               label: "Profile",
-              icon: 'pi pi-fw pi-profile',
+              icon: 'pi pi-fw pi-user-edit',
             },
             {
               label: "Sign Out",
@@ -167,6 +167,10 @@ export default {
         const event = doc(db, "events", id);
         const eventSnap = await getDoc(event);
         const evGoing = await eventSnap.data().going;
+        const max = await eventSnap.data().maxGoing;
+        
+        if (evGoing.length === max) throw new Error("This event is full.");
+
         evGoing.push(this.user.uid);
 
         await updateDoc(event, {
@@ -189,8 +193,11 @@ export default {
 
         this.$toast.add({ severity: 'success', summary: 'Success', detail: 'You have joined ' + await eventSnap.data().title, life: 3000 });
       } catch (err) {
-        console.error("Error joining event: ", err);
-        this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Please try again.', life: 3000 });
+        if (err.message === "This event is full.") this.$toast.add({ severity: 'error', summary: 'Event Full', detail: 'Sorry, this event is already full', life: 3000 });
+        else {
+          console.error("Error joining event: ", err);
+          this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Please try again.', life: 3000 });
+        }
       }
     },
     async leaveEvent(id) {
@@ -223,7 +230,7 @@ export default {
 
         this.$toast.add({ severity: 'success', summary: 'Success', detail: 'You have left ' + await eventSnap.data().title, life: 3000 });
       } catch (err) {
-        console.error("Error joining event: ", err);
+        console.error("Error leaving event: ", err);
         this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Please try again.', life: 3000 });
       }
     },

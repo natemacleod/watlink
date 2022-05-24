@@ -9,7 +9,8 @@
     <template #content>
         {{ event.desc }}
         <br>
-        {{ event.going.length }} joined
+        <p v-if="event.maxGoing === false"> {{ event.going.length }} joined</p>
+        <p v-else> {{ event.going.length }} / {{ event.maxGoing }} joined</p>
     </template>
     <template #footer>
         <PrimeButton icon="pi pi-user-plus" label="Join" @click="$emit('join-event', event.id)" style="margin-right: .5em" v-if="user && !event.going.includes(user.uid)"/>

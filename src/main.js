@@ -43,14 +43,13 @@ app.component("CheckBox", Checkbox);
 app.mount('#app');
 
 // To-Do List
-// Add validation for creating accounts
-// Add errors when you get a password wrong
 // Add profiles
-// Add other needed fields to event object [IN PROGRESS]
-// Add security rules for deletion and editing [DONE ON FRONTEND]
-// Block joining if it would violate the max number of people
+// Add Firebase security rules
 // Create search settings and add logic
 // Style site [IN PROGRESS]
+// Settings screen
 // Change passwords
 // Ability to delete accounts
+// About page
+// Add other needed fields to event object [maybe done]
 // Event chat? (Site can work w/o it, possible 1.1 feature)

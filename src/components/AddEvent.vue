@@ -51,11 +51,13 @@ export default {
             else if (this.time.trim().length > 150) this.err("Date/time should be 150 characters or less.");
             else {
                 if (this.time.length === 0) this.time = "No time specified";
+                if (this.unlimited) this.max = false;
 
                 const newEvent = {
                     title: this.title,
                     time: this.time,
-                    desc: this.desc
+                    desc: this.desc,
+                    maxGoing: this.max,
                 }
 
                 this.$emit('submit-event', newEvent);
@@ -63,6 +65,8 @@ export default {
                 this.title = "";
                 this.time = "";
                 this.desc = "";
+                this.max = 1;
+                this.unlimited = false;
             }
         },
         err(message) {

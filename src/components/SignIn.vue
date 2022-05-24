@@ -58,7 +58,7 @@ export default {
     methods: {
         onSubmit(e) {
             e.preventDefault();
-            const re = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/i);
+            const re = new RegExp(/^[\w-.+]+@([\w-]+\.)+[\w-]{2,4}$/i);
 
             if (this.email.trim().length === 0) this.err("You must include an email address.");
             else if (!re.test(this.email)) this.err("Invalid email.");
@@ -77,7 +77,7 @@ export default {
         createAccount(e) {
             e.preventDefault();
 
-            const re = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/i);
+            const re = new RegExp(/^[\w-.+]+@([\w-]+\.)+[\w-]{2,4}$/i);
 
             if (this.cemail.trim().length === 0) this.err("You must include an email address.");
             else if (!re.test(this.cemail)) this.err("Invalid email.");
