@@ -5,9 +5,9 @@ import router from './router';
 // PrimeVue UI
 import PrimeVue from "primevue/config";
 import 'primeicons/primeicons.css';
-import 'primevue/resources/themes/saga-blue/theme.css';       //theme
-import 'primevue/resources/primevue.min.css';                 //core css
-import 'primeicons/primeicons.css';                           //icons
+import 'primevue/resources/themes/saga-blue/theme.css';
+import 'primevue/resources/primevue.min.css';
+import 'primeicons/primeicons.css';
 import Dialog from 'primevue/dialog';
 import Card from 'primevue/card';
 import Button from 'primevue/button';
@@ -21,6 +21,8 @@ import ConfirmPopup from 'primevue/confirmpopup';
 import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
 import Divider from 'primevue/divider';
+import TabMenu from 'primevue/tabmenu';
+import Password from 'primevue/password';
 
 const app = createApp(App);
 app.use(router);
@@ -39,17 +41,21 @@ app.component("ToastNotif", Toast);
 app.component("DividerLine", Divider);
 app.component("InputNumber", InputNumber);
 app.component("CheckBox", Checkbox);
+app.component("TabMenu", TabMenu);
+app.component("PasswordInput", Password);
 
 app.mount('#app');
 
 // To-Do List
-// Add profiles
-// Add Firebase security rules
-// Create search settings and add logic
-// Style site [IN PROGRESS]
 // Settings screen
-// Change passwords
-// Ability to delete accounts
+//   - Edit profiles
+//   - Change passwords
+//   - Ability to delete accounts
+// Get list of joined people
+// Load only X events at a time
+// Create search settings and add logic
+// Add Firebase security rules
+// Style site [IN PROGRESS]
 // About page
 // Add other needed fields to event object [maybe done]
 // Event chat? (Site can work w/o it, possible 1.1 feature)

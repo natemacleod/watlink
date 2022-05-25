@@ -8,7 +8,7 @@
             </span>
             <br><br>
             <span class="p-float-label">
-                <InputText class="spacing" id="pass" type="password" v-model="pass" />
+                <PasswordInput class="spacing" id="pass" :feedback="false" toggleMask inputStyle="width:300px;" v-model="pass" />
                 <label for="pass">Password</label>
             </span>
             <br><br>
@@ -28,12 +28,12 @@
             </span>
             <br><br>
             <span class="p-float-label">
-                <InputText class="spacing" id="cpass" type="password" v-model="cpass" />
+                <PasswordInput class="spacing" id="cpass" v-model="cpass" :feedback="false" toggleMask inputStyle="width:300px;" />
                 <label for="cpass">Password</label>
             </span>
             <br><br>
             <span class="p-float-label">
-                <InputText class="spacing" id="cpass2" type="password" v-model="cpass2" />
+                <PasswordInput class="spacing" id="cpass2" :feedback="false" toggleMask inputStyle="width:300px;" v-model="cpass2" />
                 <label for="cpass2">Repeat Password</label>
             </span>
             <br><br>
@@ -62,7 +62,6 @@ export default {
 
             if (this.email.trim().length === 0) this.err("You must include an email address.");
             else if (!re.test(this.email)) this.err("Invalid email.");
-            else if (this.pass.length < 8) this.err("Password should be 8 or more characters.");
             else {
                 this.$emit('sign-in', this.email, this.pass);
 

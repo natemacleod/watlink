@@ -14,6 +14,15 @@
             <InputText class="spacing" id="desc" type="text" v-model="desc" />
             <label for="desc">Description</label>
         </span>
+        <br><br>
+        <div id="maxBar">
+            <label for="max" id="maxlbl">Maximum Members</label>
+            <InputNumber id="max" v-model="max" showButtons buttonLayout="horizontal" :step="1" 
+                decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" inputStyle="width:50px; text-align:center"
+                incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" :min="event.going.length" />
+            <CheckBox id="unltd" v-model="unlimited" :binary="true" style="margin: 0 10px 0 25px" />
+            <label for="unltd" id="unltdlbl">Unlimited</label>
+        </div>
         <br><br>    
         <PrimeButton class="center" label="Submit" icon="pi pi-check" @click="onSubmit" />
     </form>
@@ -29,7 +38,9 @@ export default {
         return {
             title: this.event.title,
             time: this.event.time,
-            desc: this.event.desc
+            desc: this.event.desc,
+            max: this.event.maxGoing ? this.event.maxGoing : null,
+            unlimited: this.event.maxGoing ? false : true, 
         }
     },
     methods: {
@@ -41,13 +52,16 @@ export default {
             else if (this.desc.trim().length === 0) this.err("You must include a description.");
             else if (this.desc.length > 500) this.err("Description should be 500 characters or less.");
             else if (this.time.trim().length > 150) this.err("Date/time should be 150 characters or less.");
+            else if (!this.max && !this.unlimited) this.err("Please include a maximum number of participants, or check the \"Unlimited\" box.");
             else {
                 if (this.time.length === 0) this.time = "No time specified";
-                
+                if (this.unlimited) this.max = false;
+
                 const newEvent = {
                     title: this.title,
                     time: this.time,
-                    desc: this.desc
+                    desc: this.desc,
+                    maxGoing: this.max,
                 }
 
                 this.$emit('submit-edit', this.event.id, newEvent);
@@ -55,6 +69,8 @@ export default {
                 this.title = "";
                 this.time = "";
                 this.desc = "";
+                this.max = 1;
+                this.unlimited = false;
             }
         },
         err(message) {
@@ -65,13 +81,24 @@ export default {
 </script>
 
 <style scoped>
-#addForm {
-    margin: 20px 50px 30px 50px;
+#maxBar {
+    display: flex;
     align-items: center;
 }
 
-.spacing {
-    min-width: 300px;
+#maxlbl {
+    margin: 0 10px 0 0;
 }
 
+#max {
+    margin: 0 20px 0 0;
+}
+
+#unltd {
+    margin: 0 10px 0 0;
+}
+
+.spacing {
+    width: 400px;
+}
 </style>
