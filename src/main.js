@@ -23,10 +23,12 @@ import Toast from 'primevue/toast';
 import Divider from 'primevue/divider';
 import TabMenu from 'primevue/tabmenu';
 import Password from 'primevue/password';
+import ScrollPanel from 'primevue/scrollpanel';
+import Toolbar from 'primevue/toolbar';
 
 const app = createApp(App);
 app.use(router);
-app.use(PrimeVue);
+app.use(PrimeVue, {ripple: true});
 app.use(ConfirmationService);
 app.use(ToastService);
 
@@ -43,11 +45,12 @@ app.component("InputNumber", InputNumber);
 app.component("CheckBox", Checkbox);
 app.component("TabMenu", TabMenu);
 app.component("PasswordInput", Password);
+app.component("ScrollPanel", ScrollPanel);
+app.component("ToolBar", Toolbar);
 
 app.mount('#app');
 
 // To-Do List
-// Profile pictures
 // Get list of joined people
 // Create search settings and add logic
 // Load only X events at a time
@@ -55,5 +58,6 @@ app.mount('#app');
 // Verification and password reset emails
 // Style site [IN PROGRESS]
 // About page
+// Profile pictures
 // Add other needed fields to event object [maybe done]
 // Event chat? (Site can work w/o it, possible 1.1 feature)

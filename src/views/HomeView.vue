@@ -1,5 +1,10 @@
 <template>
-    <MenuBar :model="items" />
+    <MenuBar :model="items">
+        <template #end>
+            <InputText type="text" v-model="query" placeholder="Search" style="margin-right: 1em;" />
+            <PrimeButton icon="pi pi-cog" label="Advanced Search" />
+        </template>
+    </MenuBar>
     <ToastNotif />
     <div class="home">
         <DialogBox :modal='true' header="Add Event" v-model:visible="dispAddEvent">
@@ -14,9 +19,10 @@
         <DialogBox :modal='true' header="Settings" v-model:visible="dispSettings">
             <SettingsPanel :user="user" @new-pw="newPassword" @edit-profile="editProfile" @delete-account="deleteAcc" />
         </DialogBox>
-        <SidePane />
-        <EventView :events="events" :user="user" @delete-event="deleteEvent" @edit-event="toggleEditEvent"
+        <ScrollPanel style="width:100%; height:85vh; display:inline-block" class="custom">
+        <EventView :events="events" :user="user" :query="query" @delete-event="deleteEvent" @edit-event="toggleEditEvent"
             @join-event="joinEvent" @leave-event="leaveEvent" />
+        </ScrollPanel>
     </div>
 </template>
 
@@ -24,7 +30,6 @@
 import EventView from '@/components/EventView';
 import AddEvent from '@/components/AddEvent';
 import EditEvent from '@/components/EditEvent';
-import SidePane from '@/components/SidePane';
 import SignIn from '@/components/SignIn';
 import SettingsPanel from '@/components/SettingsPanel';
 import { db, auth } from '@/firebaseInit';
@@ -33,8 +38,7 @@ import { EmailAuthProvider, deleteUser, onAuthStateChanged, createUserWithEmailA
 
 export default {
     name: 'HomeView',
-    components: {
-        SidePane,
+    components: {   
         EventView,
         AddEvent,
         EditEvent,
@@ -45,6 +49,8 @@ export default {
         return {
             events: [],
             user: null,
+
+            query: "",
 
             dispAddEvent: false,
             dispSignIn: false,
@@ -365,5 +371,19 @@ export default {
 <style>
 :root {
     --primary-color: rgb(255, 213, 61) !important;
+}
+
+.custom .p-scrollpanel-wrapper {
+    border-right: 9px solid #cccccc !important;
+}
+
+.custom .p-scrollpanel-bar {
+    background-color: #1976d2 !important;
+    opacity: 1;
+    transition: background-color .3s;
+}
+
+.custom .p-scrollpanel-bar:hover {
+    background-color: #135ba1 !important;
 }
 </style>

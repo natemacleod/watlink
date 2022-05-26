@@ -1,9 +1,11 @@
 <template>
     <div id="outer">
-        <div class="event" :key="event.id" v-for="event in events">
+        <div v-for="event in events" :key="event.id">
+        <div class="event" v-if="matchesQuery(event)">
             <EventInfo :event="event" :user="user" @delete-event="$emit('delete-event', event.id)"
                 @edit-event="$emit('edit-event', event)" @join-event="$emit('join-event', event.id)"
                 @leave-event="$emit('leave-event', event.id)" />
+        </div>
         </div>
     </div>
 </template>
@@ -16,11 +18,19 @@ export default {
     props: {
         events: Array,
         user: Object,
+        query: String,
     },
     components: {
         EventInfo,
     },
     emits: ['delete-event', 'edit-event', 'join-event', 'leave-event'],
+    methods: {
+        matchesQuery(e) {
+            const q = this.query.toLowerCase();
+            if (e.title.toLowerCase().includes(q) || e.time.toLowerCase().includes(q) || e.desc.toLowerCase().includes(q)) return true;
+            else return false;
+        }
+    }
 }
 </script>
 
@@ -30,8 +40,6 @@ export default {
     flex-wrap: wrap;
     padding: 10px;
     border: 1px solid green;
-    height: 90vh;
-    overflow: auto;
     align-items: flex-start;
 }
 
