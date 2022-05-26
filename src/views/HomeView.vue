@@ -1,8 +1,8 @@
 <template>
     <MenuBar :model="items">
         <template #end>
-            <InputText type="text" v-model="query" placeholder="Search" style="margin-right: 1em;" />
-            <PrimeButton icon="pi pi-cog" label="Advanced Search" />
+            <InputText type="text" v-model="query[0]" placeholder="Search" style="margin-right: 1em;" />
+            <PrimeButton icon="pi pi-filter" label="Advanced Search" @click="toggleAdvSearch" v-if="user" />
         </template>
     </MenuBar>
     <ToastNotif />
@@ -19,6 +19,9 @@
         <DialogBox :modal='true' header="Settings" v-model:visible="dispSettings">
             <SettingsPanel :user="user" @new-pw="newPassword" @edit-profile="editProfile" @delete-account="deleteAcc" />
         </DialogBox>
+        <DialogBox :modal='true' header="Advanced Search" v-model:visible="dispAdvSearch">
+            <AdvancedSearch :query="query" @set-filters="setFilters" />
+        </DialogBox>
         <ScrollPanel style="width:100%; height:85vh; display:inline-block" class="custom">
         <EventView :events="events" :user="user" :query="query" @delete-event="deleteEvent" @edit-event="toggleEditEvent"
             @join-event="joinEvent" @leave-event="leaveEvent" />
@@ -32,6 +35,7 @@ import AddEvent from '@/components/AddEvent';
 import EditEvent from '@/components/EditEvent';
 import SignIn from '@/components/SignIn';
 import SettingsPanel from '@/components/SettingsPanel';
+import AdvancedSearch from '@/components/AdvancedSearch';
 import { db, auth } from '@/firebaseInit';
 import { collection, getDocs, getDoc, addDoc, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { EmailAuthProvider, deleteUser, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut, reauthenticateWithCredential, updatePassword, updateEmail } from '@firebase/auth';
@@ -44,18 +48,21 @@ export default {
         EditEvent,
         SignIn,
         SettingsPanel,
+        AdvancedSearch
     },
     data() {
         return {
             events: [],
             user: null,
 
-            query: "",
+            query: ["", true, true, true, true, true],
 
             dispAddEvent: false,
             dispSignIn: false,
             dispEditEvent: false,
             dispSettings: false,
+            dispAdvSearch: false,
+
             eventToEdit: null,
 
             items: [
@@ -238,6 +245,10 @@ export default {
                 this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Please try again.', life: 3000 });
             }
         },
+        setFilters(filters, toggle) {
+            this.query = filters;
+            if (toggle) this.toggleAdvSearch;
+        },
 
         // Toggles
         toggleAddEvent() {
@@ -252,6 +263,9 @@ export default {
         },
         toggleSettings() {
             this.dispSettings = !this.dispSettings;
+        },
+        toggleAdvSearch() {
+            this.dispAdvSearch = !this.dispAddSearch;
         },
 
         // Auth functions

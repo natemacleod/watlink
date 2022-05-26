@@ -52,12 +52,10 @@ app.mount('#app');
 
 // To-Do List
 // Get list of joined people
-// Create search settings and add logic
 // Load only X events at a time
 // Add Firebase security rules
 // Verification and password reset emails
 // Style site [IN PROGRESS]
 // About page
-// Profile pictures
-// Add other needed fields to event object [maybe done]
+// Profile pictures (Site can work w/o it, possible 1.1 feature)
 // Event chat? (Site can work w/o it, possible 1.1 feature)
