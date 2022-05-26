@@ -47,14 +47,12 @@ app.component("PasswordInput", Password);
 app.mount('#app');
 
 // To-Do List
-// Settings screen
-//   - Edit profiles
-//   - Change passwords
-//   - Ability to delete accounts
+// Profile pictures
 // Get list of joined people
-// Load only X events at a time
 // Create search settings and add logic
+// Load only X events at a time
 // Add Firebase security rules
+// Verification and password reset emails
 // Style site [IN PROGRESS]
 // About page
 // Add other needed fields to event object [maybe done]

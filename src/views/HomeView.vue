@@ -12,7 +12,7 @@
             <SignIn @new-user="createNewUser" @sign-in="signInUser" />
         </DialogBox>
         <DialogBox :modal='true' header="Settings" v-model:visible="dispSettings">
-            <SettingsPanel :user="user" @new-pw="newPassword" />
+            <SettingsPanel :user="user" @new-pw="newPassword" @edit-profile="editProfile" @delete-account="deleteAcc" />
         </DialogBox>
         <SidePane />
         <EventView :events="events" :user="user" @delete-event="deleteEvent" @edit-event="toggleEditEvent"
@@ -29,7 +29,7 @@ import SignIn from '@/components/SignIn';
 import SettingsPanel from '@/components/SettingsPanel';
 import { db, auth } from '@/firebaseInit';
 import { collection, getDocs, getDoc, addDoc, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
-import { EmailAuthProvider, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut, reauthenticateWithCredential, updatePassword } from '@firebase/auth';
+import { EmailAuthProvider, deleteUser, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut, reauthenticateWithCredential, updatePassword, updateEmail } from '@firebase/auth';
 
 export default {
     name: 'HomeView',
@@ -269,6 +269,8 @@ export default {
             } catch (err) {
                 if (err.message === 'Firebase: Error (auth/wrong-password).') {
                     this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Incorrect password.', life: 3000 });
+                } else if (err.message === 'Firebase: Error (auth/user-not-found).') {
+                    this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Account not found.', life: 3000 });
                 } else this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred.', life: 3000 });
             }
         },
@@ -300,6 +302,42 @@ export default {
                     this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred.', life: 3000 });
                 }
             }
+        },
+        async editProfile(info) {
+            const res = await this.reAuth(info.pass);
+            if (res) {
+                try {
+                    if (info.dn !== this.user.displayName) {
+                        updateProfile(this.user, {displayName: info.dn});
+                        this.$toast.add({ severity: 'success', summary: 'Success', detail: 'Profile changed succesfully.', life: 3000 })
+                    }
+                    if (info.email !== this.user.email) {
+                        updateEmail(this.user, info.email);
+                        this.$toast.add({ severity: 'success', summary: 'Success', detail: 'A new verification email has been sent to ' + info.email + '.', life: 3000 })
+                    }
+                } catch (err) {
+                    this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred.', life: 3000 });
+                }
+            }
+        },
+        async deleteAcc(pass) {
+            // Remove all events created by uid, Remove all instances of uid from events
+            const querySnapshot = await getDocs(collection(db, "events"));
+            querySnapshot.forEach((d) => {
+                if (d.data().creator === this.user.uid) {
+                    deleteDoc(doc(db, "events", d.id));
+                } else if (d.data().going.includes(this.user.uid)) updateDoc(doc(db, "events", d.id), {
+                    going: arrayRemove(this.user.uid)
+                });
+            });
+
+            // Reauthenticate
+            await this.reAuth(pass);
+
+            // Remove uid from system
+            await deleteUser(this.user);
+            this.$toast.add({ severity: 'success', summary: 'Success', detail: 'Account deleted succesfully. You may need to refresh to see changes.', life: 3000 });
+            this.toggleSettings();
         }
     },
     async created() {
@@ -323,3 +361,9 @@ export default {
     },
 }
 </script>
+
+<style>
+:root {
+    --primary-color: rgb(255, 213, 61) !important;
+}
+</style>

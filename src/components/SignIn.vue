@@ -79,6 +79,8 @@ export default {
             const re = new RegExp(/^[\w-.+]+@([\w-]+\.)+[\w-]{2,4}$/i);
 
             if (this.cemail.trim().length === 0) this.err("You must include an email address.");
+            else if (this.cname.trim().length === 0) this.err("You must include a display name.");
+            else if (this.cname.length > 50) this.err("Display name should be 50 or fewer characters.");
             else if (!re.test(this.cemail)) this.err("Invalid email.");
             else if (this.cpass.length < 8) this.err("Password should be 8 or more characters.");
             else if (this.cpass2.length === 0) this.err("Please confirm your password.");

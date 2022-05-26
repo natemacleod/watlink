@@ -1,18 +1,22 @@
 <template>
-    <TabMenu :model="items" />
-    <EditProfile v-if="dispProfile" :user="user" />
-    <ChangePassword v-if="dispPass" :user="user" @new-pw="newPass" />
-    <div id="deleteAccount" v-if="dispDelete">
-        <p>Delete</p>
+    <div id="settings">
+        <TabMenu :model="items" />
+        <EditProfile v-if="dispProfile" :user="user" @edit-profile="editProfile" />
+        <ChangePassword v-if="dispPass" @new-pw="newPass" />
+        <DeleteAccount v-if="dispDelete" @delete-account="deleteAcc" />
     </div>
 </template>
 
 <script>
 import ChangePassword from './ChangePassword.vue';
+import EditProfile from './EditProfile.vue';
+import DeleteAccount from './DeleteAccount.vue';
 export default {
     name: "SettingsPanel",
     components: {
         ChangePassword,
+        EditProfile,
+        DeleteAccount,
     },
     props: {
         user: Object,
@@ -20,9 +24,9 @@ export default {
     data() {
         return {
             items: [
-                {label: 'Edit Profile', icon: 'pi pi-fw pi-user-edit', command: () => this.showProfile()},
-                {label: 'Change Password', icon: 'pi pi-fw pi-lock', command: () => this.showPassword()},
-                {label: 'Delete Account', icon: 'pi pi-fw pi-trash', command: () => this.showDelete()},
+                { label: 'Edit Profile', icon: 'pi pi-fw pi-user-edit', command: () => this.showProfile() },
+                { label: 'Change Password', icon: 'pi pi-fw pi-lock', command: () => this.showPassword() },
+                { label: 'Delete Account', icon: 'pi pi-fw pi-trash', command: () => this.showDelete() },
             ],
             dispProfile: true,
             dispPass: false,
@@ -49,8 +53,21 @@ export default {
         },
         newPass(cpass, npass) {
             this.$emit('new-pw', cpass, npass);
+        },
+        editProfile(userInfo) {
+            this.$emit('edit-profile', userInfo);
+        },
+        deleteAcc(pass) {
+            this.$emit('delete-account', pass);
         }
     },
-    emits: ['new-pw']
+    emits: ['new-pw', 'edit-profile', 'delete-account']
 }
 </script>
+
+<style scoped>
+#settings {
+    width: 500px;
+    height: 500px;
+}
+</style>

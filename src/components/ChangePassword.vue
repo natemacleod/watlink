@@ -15,16 +15,13 @@
         <label for="npass2">Repeat New Password</label>
         </span>
         <br><br>   
-        <PrimeButton class="center" label="Change Password" icon="pi pi-check" @click="onSubmit" />
+        <PrimeButton label="Change Password" class="pi-button-primary" icon="pi pi-check" @click="onSubmit" />
     </form>
 </template>
 
 <script>
 export default {
     name: "ChangePassword",
-    props: {
-        user: Object,
-    },
     data() {
         return {
             cpass: "",
@@ -36,7 +33,8 @@ export default {
         onSubmit(e) {
             e.preventDefault();
 
-            if (this.npass !== this.npass2) this.err("New passwords do not match.");
+            if (this.cpass.length === 0) this.err("Please enter your current password.");
+            else if (this.npass !== this.npass2) this.err("New passwords do not match.");
             else if (this.npass.length < 8) this.err("New password should be 8 or more characters.");
             else {
                 this.$emit('new-pw', this.cpass, this.npass);
