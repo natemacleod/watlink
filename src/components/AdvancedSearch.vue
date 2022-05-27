@@ -22,8 +22,8 @@
             <CheckBox binary v-model="showUnjoined" id="unjoin" style="margin-right: 0.4em;" />
             <label for="unjoin">Show events you haven't joined</label>
         </div>
-        <PrimeButton icon="pi pi-search" label="Search" @click="$emit('set-filters', [this.search, this.showFull,
-        this.showMine, this.showOthers, this.showJoined, this.showUnjoined], true)" style="margin-right: .5em;" />
+        <PrimeButton icon="pi pi-search" label="Search" @click="$emit('set-filters', [[this.search, this.showFull,
+        this.showMine, this.showOthers, this.showJoined, this.showUnjoined], true])" style="margin-right: .5em;" />
         <PrimeButton icon="pi pi-trash" class="p-button-danger" label="Reset Filters" @click="reset" />
     </form>
 </template>
@@ -53,7 +53,7 @@ export default {
             this.showJoined = true;
             this.showUnjoined = true;
 
-            this.$emit('set-filters', [this.search, this.showFull, this.showMine, this.showOthers, this.showJoined, this.showUnjoined], false);
+            this.$emit('set-filters', [[this.search, this.showFull, this.showMine, this.showOthers, this.showJoined, this.showUnjoined], false]);
         }
     }
 }

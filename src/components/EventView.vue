@@ -1,6 +1,6 @@
 <template>
     <div id="outer">
-        <div v-for="event in events" :key="event.id">
+        <div v-for="event in events.slice(0, getLimit())" :key="event.id">
             <div class="event" v-if="matchesQuery(event)">
                 <EventInfo :event="event" :user="user" @delete-event="$emit('delete-event', event.id)"
                     @edit-event="$emit('edit-event', event)" @join-event="$emit('join-event', event.id)"
@@ -8,6 +8,8 @@
             </div>
         </div>
     </div>
+    <h4>Showing <strong>{{ amountShown }}</strong> of {{ events.length }} events</h4>
+    <PrimeButton icon="pi pi-plus" label="Show More" @click="lim += 25" style="margin: 10px; align-self:center;" />
 </template>
 
 <script>
@@ -23,9 +25,16 @@ export default {
     components: {
         EventInfo,
     },
+    data() {
+        return {
+            lim: 25,
+            amountShown: 0,
+        }
+    },
     emits: ['delete-event', 'edit-event', 'join-event', 'leave-event'],
     methods: {
         matchesQuery(e) {
+            if (!e) return false;
             const q = this.query[0].toLowerCase();
             if (e.title.toLowerCase().includes(q) || e.time.toLowerCase().includes(q) || e.desc.toLowerCase().includes(q)) {
                 if (!this.user) return true;
@@ -38,11 +47,22 @@ export default {
             else return (e.going.length < e.maxGoing);
         },
         sat2(e) {
-            return (e.creator === this.user.uid);
+            return (e.creator[0] === this.user.uid);
         },
         sat4(e) {
             return (e.going.includes(this.user.uid));
         },
+        getLimit() {
+            let howManyLeft = this.lim;
+            let i = 0;
+            while (howManyLeft > 0) {
+                if (this.matchesQuery(this.events[i])) howManyLeft--;
+                i++;
+                if (i >= this.events.length) break;
+            }
+            this.amountShown = this.lim - howManyLeft;
+            return i;
+        }
     }
 }
 </script>

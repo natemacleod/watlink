@@ -24,7 +24,7 @@ import Divider from 'primevue/divider';
 import TabMenu from 'primevue/tabmenu';
 import Password from 'primevue/password';
 import ScrollPanel from 'primevue/scrollpanel';
-import Toolbar from 'primevue/toolbar';
+import ProgressSpinner from 'primevue/progressspinner';
 
 const app = createApp(App);
 app.use(router);
@@ -46,12 +46,11 @@ app.component("CheckBox", Checkbox);
 app.component("TabMenu", TabMenu);
 app.component("PasswordInput", Password);
 app.component("ScrollPanel", ScrollPanel);
-app.component("ToolBar", Toolbar);
+app.component("ProgressSpinner", ProgressSpinner);
 
 app.mount('#app');
 
 // To-Do List
-// Get list of joined people
 // Load only X events at a time
 // Add Firebase security rules
 // Verification and password reset emails
@@ -59,3 +58,4 @@ app.mount('#app');
 // About page
 // Profile pictures (Site can work w/o it, possible 1.1 feature)
 // Event chat? (Site can work w/o it, possible 1.1 feature)
+// Get list of joined people

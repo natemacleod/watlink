@@ -1,4 +1,8 @@
 <template>
+    <div id="load" v-if="loading" >
+        <ProgressSpinner />
+    </div>
+    <div id="site" v-else>
     <MenuBar :model="items">
         <template #end>
             <InputText type="text" v-model="query[0]" placeholder="Search" style="margin-right: 1em;" />
@@ -22,10 +26,11 @@
         <DialogBox :modal='true' header="Advanced Search" v-model:visible="dispAdvSearch">
             <AdvancedSearch :query="query" @set-filters="setFilters" />
         </DialogBox>
-        <ScrollPanel style="width:100%; height:85vh; display:inline-block" class="custom">
+        <ScrollPanel style="width:100%; height:90vh; display:inline-block" class="custom">
         <EventView :events="events" :user="user" :query="query" @delete-event="deleteEvent" @edit-event="toggleEditEvent"
             @join-event="joinEvent" @leave-event="leaveEvent" />
         </ScrollPanel>
+    </div>
     </div>
 </template>
 
@@ -64,6 +69,8 @@ export default {
             dispAdvSearch: false,
 
             eventToEdit: null,
+
+            loading: true,
 
             items: [
                 {
@@ -105,7 +112,7 @@ export default {
                     title: e.title,
                     desc: e.desc,
                     time: e.time,
-                    creator: this.user.uid,
+                    creator: [this.user.uid, this.user.displayName],
                     going: [this.user.uid],
                     maxGoing: e.maxGoing
                 });
@@ -115,7 +122,7 @@ export default {
                     title: e.title,
                     desc: e.desc,
                     time: e.time,
-                    creator: this.user.uid,
+                    creator: [this.user.uid, this.user.displayName],
                     going: [this.user.uid],
                     maxGoing: e.maxGoing
                 });
@@ -150,7 +157,7 @@ export default {
                             time: e.time,
                             desc: e.desc,
                             creator: ev.creator,
-                            going: [ev.going],
+                            going: ev.going,
                             maxGoing: e.maxGoing,
                         };
                     } else return ev;
@@ -245,9 +252,9 @@ export default {
                 this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Please try again.', life: 3000 });
             }
         },
-        setFilters(filters, toggle) {
-            this.query = filters;
-            if (toggle) this.toggleAdvSearch;
+        setFilters(filters) {
+            this.query = filters[0];
+            if (filters[1]) this.dispAdvSearch = false;
         },
 
         // Toggles
@@ -265,7 +272,7 @@ export default {
             this.dispSettings = !this.dispSettings;
         },
         toggleAdvSearch() {
-            this.dispAdvSearch = !this.dispAddSearch;
+            this.dispAdvSearch = !this.dispAdvSearch;
         },
 
         // Auth functions
@@ -378,13 +385,23 @@ export default {
                 this.user = u;
             } else this.user = null;
         });
+        this.loading = false;
     },
 }
 </script>
 
 <style>
+
 :root {
     --primary-color: rgb(255, 213, 61) !important;
+}
+
+* {
+    margin: 0;
+}
+
+.p-progress-spinner-svg {
+    height: 95% !important;
 }
 
 .custom .p-scrollpanel-wrapper {
@@ -400,4 +417,18 @@ export default {
 .custom .p-scrollpanel-bar:hover {
     background-color: #135ba1 !important;
 }
+
+#load {
+    margin: auto;
+    width: 10%;
+    display: table;
+    height: 100vh;
+}
+
+#load * {
+    width: 100%;
+    display: table-cell;
+    vertical-align: middle;
+}
+
 </style>
