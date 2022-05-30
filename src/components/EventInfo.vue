@@ -12,7 +12,7 @@
         <p v-if="event.maxGoing === false"> <strong>{{ event.going.length }}</strong> joined</p>
         <p v-else> <strong>{{ event.going.length }}</strong> / {{ event.maxGoing }} joined</p>
         <br>
-        <p>Created by <strong>{{ event.creator[1] }}</strong></p>
+        <p>Created by <strong>{{ event.crName }}</strong></p>
     </template>
     <template #footer>
         <PrimeButton icon="pi pi-user-plus" label="Join" @click="$emit('join-event', event.id)" style="margin-right: .5em" v-if="user && !event.going.includes(user.uid)"/>
@@ -34,6 +34,7 @@ export default {
     props: {
         event: Object,
         user: Object,
+        name: String,
     },
     methods: {
         deleteEvent(e) {

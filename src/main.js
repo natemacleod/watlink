@@ -51,11 +51,10 @@ app.component("ProgressSpinner", ProgressSpinner);
 app.mount('#app');
 
 // To-Do List
-// Load only X events at a time
-// Add Firebase security rules
 // Verification and password reset emails
 // Style site [IN PROGRESS]
+// Readme, site title, favicon, version
 // About page
 // Profile pictures (Site can work w/o it, possible 1.1 feature)
 // Event chat? (Site can work w/o it, possible 1.1 feature)
-// Get list of joined people
+// Get list of joined people (Will require using 2 arrays to track UIDs and names)

@@ -112,7 +112,7 @@ export default {
                     title: e.title,
                     desc: e.desc,
                     time: e.time,
-                    creator: [this.user.uid, this.user.displayName],
+                    creator: this.user.uid,
                     going: [this.user.uid],
                     maxGoing: e.maxGoing
                 });
@@ -122,7 +122,8 @@ export default {
                     title: e.title,
                     desc: e.desc,
                     time: e.time,
-                    creator: [this.user.uid, this.user.displayName],
+                    creator: this.user.uid,
+                    crName: this.user.displayName,
                     going: [this.user.uid],
                     maxGoing: e.maxGoing
                 });
@@ -157,6 +158,7 @@ export default {
                             time: e.time,
                             desc: e.desc,
                             creator: ev.creator,
+                            crName: ev.crName,
                             going: ev.going,
                             maxGoing: e.maxGoing,
                         };
@@ -203,6 +205,7 @@ export default {
                             time: ev.time,
                             desc: ev.desc,
                             creator: ev.creator,
+                            crName: ev.crName,
                             going: evGoing,
                             maxGoing: ev.maxGoing
                         };
@@ -240,6 +243,7 @@ export default {
                             time: ev.time,
                             desc: ev.desc,
                             creator: ev.creator,
+                            crName: ev.crName,
                             going: evGoing,
                             maxGoing: ev.maxGoing
                         };
@@ -279,13 +283,17 @@ export default {
         async createNewUser(email, password, name) {
             try {
                 await createUserWithEmailAndPassword(auth, email, password);
+                await addDoc(collection(db, "users"), {
+                    name: name,
+                    email: email
+                });
                 updateProfile(this.user, { displayName: name });
-                this.$toast.add({ severity: 'success', summary: 'Success', detail: `Welcome, ${this.user.displayName}!`, life: 3000 });
+                this.$toast.add({ severity: 'success', summary: 'Success', detail: `Welcome, ${name}!`, life: 3000 });
                 this.toggleSignIn();
             } catch (err) {
                 if (err.message === 'Firebase: Error (auth/email-already-in-use).') {
                     this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Email already in use. Did you mean to sign in?', life: 3000 });
-                } else this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred.', life: 3000 });
+                } else this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred.' + err.message, life: 3000 });
             }
         },
         async signInUser(email, password) {
@@ -336,12 +344,16 @@ export default {
                 try {
                     if (info.dn !== this.user.displayName) {
                         updateProfile(this.user, {displayName: info.dn});
-                        this.$toast.add({ severity: 'success', summary: 'Success', detail: 'Profile changed succesfully.', life: 3000 })
+                        this.$toast.add({ severity: 'success', summary: 'Success', detail: 'Profile changed succesfully. You may need to refresh to see changes.', life: 3000 })
                     }
                     if (info.email !== this.user.email) {
                         updateEmail(this.user, info.email);
                         this.$toast.add({ severity: 'success', summary: 'Success', detail: 'A new verification email has been sent to ' + info.email + '.', life: 3000 })
                     }
+                    await updateDoc(doc(db, "users", this.user.uid), {
+                        name: info.dn,
+                        email: info.email
+                    });
                 } catch (err) {
                     this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred.', life: 3000 });
                 }
@@ -362,24 +374,40 @@ export default {
             await this.reAuth(pass);
 
             // Remove uid from system
+            await deleteDoc(doc(db, "users", this.user.uid));
             await deleteUser(this.user);
-            this.$toast.add({ severity: 'success', summary: 'Success', detail: 'Account deleted succesfully. You may need to refresh to see changes.', life: 3000 });
+            this.$toast.add({ severity: 'success', summary: 'Success', detail: 'Account deleted successfully. You may need to refresh to see changes.', life: 3000 });
             this.toggleSettings();
         }
     },
     async created() {
         const querySnapshot = await getDocs(collection(db, "events"));
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach(event => {
             this.events.push({
-                id: doc.id,
-                title: doc.data().title,
-                desc: doc.data().desc,
-                time: doc.data().time,
-                creator: doc.data().creator,
-                going: doc.data().going,
-                maxGoing: doc.data().maxGoing
+                id: event.id,
+                title: event.data().title,
+                desc: event.data().desc,
+                time: event.data().time,
+                creator: event.data().creator,
+                going: event.data().going,
+                maxGoing: event.data().maxGoing
             });
         });
+
+        for (let i = 0; i < this.events.length; i++) {
+            const userRef = await getDoc(doc(db, "users", this.events[i].creator));
+            this.events[i] = {
+                id: this.events[i].id,
+                title: this.events[i].title,
+                desc: this.events[i].desc,
+                time: this.events[i].time,
+                creator: this.events[i].creator,
+                crName: userRef.data().name,
+                going: this.events[i].going,
+                maxGoing: this.events[i].maxGoing
+            };
+        }
+
         onAuthStateChanged(auth, (u) => {
             if (u) {
                 this.user = u;

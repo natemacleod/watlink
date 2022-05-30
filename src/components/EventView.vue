@@ -47,7 +47,7 @@ export default {
             else return (e.going.length < e.maxGoing);
         },
         sat2(e) {
-            return (e.creator[0] === this.user.uid);
+            return (e.creator === this.user.uid);
         },
         sat4(e) {
             return (e.going.includes(this.user.uid));
@@ -62,7 +62,7 @@ export default {
             }
             this.amountShown = this.lim - howManyLeft;
             return i;
-        }
+        },
     }
 }
 </script>
