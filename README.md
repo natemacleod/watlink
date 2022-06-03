@@ -7,7 +7,7 @@ WatLink is a great place to advertise your group. For study groups, you can add 
 
 ### FAQ
 **How do I set up an event?**
-*Simply click the "Add Event" button and enter a title, description, class (if you're making a study group), and set the maximum number of members (or make it unlimited). Be sure to specify a date and time to meet, or an online chat room (i.e. a Discord server) in the description. If you want, you can make this info visible only to those who join your event.
+*Simply click the "Add Event" button and enter a title, description, class (if you're making a study group), and set the maximum number of members (or make it unlimited). Be sure to specify a date and time to meet, or an online chat room (i.e. a Discord server) in the description. If you want, you can make this info visible only to those who join your event.*
 
 **How do I join an event?**
 *Just click "Join" next to the event! If you can't see the button, the event is probably full.*
