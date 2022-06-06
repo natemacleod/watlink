@@ -1,14 +1,14 @@
 <template>
 <CardContainer class="constsize">
     <template #title>
-        {{ event.title }}
+        <h4 style="overflow-wrap: break-word;">{{ event.title }}</h4>
     </template>
     <template #subtitle>
-        <h4>{{ event.time }}</h4>
+        <h4 style="overflow-wrap: break-word;">{{ event.time }}</h4>
         <div v-if="event.class"><h4>for {{ event.class }} {{ event.clnum }}</h4></div>
     </template>
     <template #content>
-        <p>{{ event.desc }}</p>
+        <p style="overflow-wrap: break-word;">{{ event.desc }}</p>
         <br>
         <p v-if="event.maxGoing === false"> <strong>{{ event.going.length }}</strong> joined</p>
         <p v-else> <strong>{{ event.going.length }}</strong> / {{ event.maxGoing }} joined</p>

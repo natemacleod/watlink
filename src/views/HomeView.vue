@@ -26,7 +26,7 @@
         <DialogBox :modal='true' header="Advanced Search" v-model:visible="dispAdvSearch">
             <AdvancedSearch :query="query" @set-filters="setFilters" />
         </DialogBox>
-        <ScrollPanel style="width:100%; height:90vh; display:inline-block" class="custom">
+        <ScrollPanel style="width:100%; height:93.7vh; display:inline-block" class="custom">
         <EventView :events="events" :user="user" :query="query" @delete-event="deleteEvent" @edit-event="toggleEditEvent"
             @join-event="joinEvent" @leave-event="leaveEvent" />
         </ScrollPanel>
@@ -448,6 +448,10 @@ export default {
     height: 95% !important;
 }
 
+.custom {
+    background-color: #1f1f1f;
+}
+
 .custom .p-scrollpanel-wrapper {
     border-right: 9px solid #cccccc !important;
 }
@@ -473,10 +477,6 @@ export default {
     width: 100%;
     display: table-cell;
     vertical-align: middle;
-}
-
-.custom {
-    background-color: #cccccc;
 }
 
 </style>
