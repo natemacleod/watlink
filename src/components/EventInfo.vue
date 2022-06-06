@@ -56,10 +56,12 @@ export default {
 
 <style>
 .constsize {
-    width: 400px;
+    border-radius: 10px !important;
     height: 500px;
 }
+
 #footer {
     display: inline-block;
 }
+
 </style>

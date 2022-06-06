@@ -475,4 +475,8 @@ export default {
     vertical-align: middle;
 }
 
+.custom {
+    background-color: #cccccc;
+}
+
 </style>

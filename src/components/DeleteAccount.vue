@@ -1,7 +1,9 @@
 <template>
     <div id="delete">
-        <h2>WARNING: Deleting your account is irreversible. <br>All your data will be permanently lost, <br>including
-            all events that you have created.</h2>
+        <h3 style="color:red;" >Deleting your account is irreversible.</h3>
+        <h3>All your data will be permanently lost, <br>including
+            all events that you have created.</h3>
+        <br>
         <CheckBox id="agree" binary v-model="box" />
         <label for="agree" id="margin">I understand that this process cannot be undone.</label>
         <br><br><br>

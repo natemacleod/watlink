@@ -75,7 +75,7 @@ export default {
                     title: this.title,
                     time: this.time,
                     desc: this.desc,
-                    cl: this.cl,
+                    class: this.cl,
                     clnum: this.clnum,
                     maxGoing: this.max,
                 }

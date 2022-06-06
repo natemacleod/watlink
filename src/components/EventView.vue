@@ -1,6 +1,6 @@
 <template>
     <div id="outer">
-        <div v-for="event in events.slice(0, getLimit())" :key="event.id">
+        <div class="eventshell" v-for="event in events.slice(0, getLimit())" :key="event.id">
             <div class="event" v-if="matchesQuery(event)">
                 <EventInfo :event="event" :user="user" @delete-event="$emit('delete-event', event.id)"
                     @edit-event="$emit('edit-event', event)" @join-event="$emit('join-event', event.id)"
@@ -8,7 +8,7 @@
             </div>
         </div>
     </div>
-    <h4>Showing <strong>{{ amountShown }}</strong> of {{ events.length }} events</h4>
+    <h4 style="margin: 0 0 0 10px;">Showing <strong>{{ amountShown }}</strong> of {{ events.length }} events</h4>
     <PrimeButton icon="pi pi-plus" label="Show More" @click="lim += 25" style="margin: 10px; align-self:center;" />
 </template>
 
@@ -73,15 +73,14 @@ export default {
     display: flex;
     flex-wrap: wrap;
     padding: 10px;
-    border: 1px solid green;
     align-items: flex-start;
+    min-height: 90%;
 }
 
-.event {
-    margin: 1%;
-    border: 1px solid blue;
+.eventshell {
+    margin: 0 0.5% 0.5% 0;
     overflow: hidden;
     width: 400px;
-    height: 500px;
+    height: 505px;
 }
 </style>
