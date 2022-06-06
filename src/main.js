@@ -25,6 +25,7 @@ import TabMenu from 'primevue/tabmenu';
 import Password from 'primevue/password';
 import ScrollPanel from 'primevue/scrollpanel';
 import ProgressSpinner from 'primevue/progressspinner';
+import Dropdown from 'primevue/dropdown';
 
 const app = createApp(App);
 app.use(router);
@@ -47,6 +48,7 @@ app.component("TabMenu", TabMenu);
 app.component("PasswordInput", Password);
 app.component("ScrollPanel", ScrollPanel);
 app.component("ProgressSpinner", ProgressSpinner);
+app.component("DropdownMenu", Dropdown);
 
 app.mount('#app');
 

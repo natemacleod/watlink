@@ -2,6 +2,7 @@
     <form id="advSearch">
         <div class="together">
             <h3>Search Titles, Times, and Descriptions</h3>
+            <br>
             <div id="topflex">
                 <InputText type="text" v-model="search" placeholder="Search" style="width:300px; margin-right: 1em;" />
                 <CheckBox binary v-model="showFull" id="full" style="margin-right: 0.4em;" />
@@ -10,6 +11,7 @@
         </div>
         <div class="together">
             <h3>Filter by Creator</h3>
+            <br>
             <CheckBox binary v-model="showMine" id="mine" style="margin-right: 0.4em;" />
             <label for="mine" style="margin-right: 1.5em;">Show events you've created</label>
             <CheckBox binary v-model="showOthers" id="others" style="margin-right: 0.4em;" />
@@ -17,6 +19,7 @@
         </div>
         <div class="together">
             <h3>Filter by Join Status</h3>
+            <br>
             <CheckBox binary v-model="showJoined" id="join" style="margin-right: 0.4em;" />
             <label for="join" style="margin-right: 1.5em;">Show events you've joined</label>
             <CheckBox binary v-model="showUnjoined" id="unjoin" style="margin-right: 0.4em;" />

@@ -2,6 +2,7 @@
     <div id="box">
         <form id="signInForm" class="authForm">
             <h3>Sign In</h3>
+            <br>
             <span class="p-float-label">
                 <InputText class="spacing" id="email" type="email" v-model="email" />
                 <label for="email">Email</label>
@@ -17,6 +18,7 @@
         <DividerLine layout="vertical" class="authForm" />
         <form id="createForm" class="authForm">
             <h3>or Create an Account</h3>
+            <br>
             <span class="p-float-label">
                 <InputText class="spacing" id="cemail" type="email" v-model="cemail" />
                 <label for="cemail">Email</label>

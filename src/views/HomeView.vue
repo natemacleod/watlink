@@ -113,6 +113,8 @@ export default {
                     desc: e.desc,
                     time: e.time,
                     creator: this.user.uid,
+                    class: e.class,
+                    clnum: e.clnum,
                     going: [this.user.uid],
                     maxGoing: e.maxGoing
                 });
@@ -124,6 +126,8 @@ export default {
                     time: e.time,
                     creator: this.user.uid,
                     crName: this.user.displayName,
+                    class: e.class,
+                    clnum: e.clnum,
                     going: [this.user.uid],
                     maxGoing: e.maxGoing
                 });
@@ -144,6 +148,8 @@ export default {
                     title: e.title,
                     time: e.time,
                     desc: e.desc,
+                    class: e.class,
+                    clnum: e.clnum,
                     maxGoing: e.maxGoing
                 });
 
@@ -157,6 +163,8 @@ export default {
                             title: e.title,
                             time: e.time,
                             desc: e.desc,
+                            class: e.class,
+                            clnum: e.clnum,
                             creator: ev.creator,
                             crName: ev.crName,
                             going: ev.going,
@@ -206,6 +214,8 @@ export default {
                             desc: ev.desc,
                             creator: ev.creator,
                             crName: ev.crName,
+                            class: ev.class,
+                            clnum: ev.clnum,
                             going: evGoing,
                             maxGoing: ev.maxGoing
                         };
@@ -244,6 +254,8 @@ export default {
                             desc: ev.desc,
                             creator: ev.creator,
                             crName: ev.crName,
+                            class: ev.class,
+                            clnum: ev.clnum,
                             going: evGoing,
                             maxGoing: ev.maxGoing
                         };
@@ -389,6 +401,8 @@ export default {
                 desc: event.data().desc,
                 time: event.data().time,
                 creator: event.data().creator,
+                class: event.data().class,
+                clnum: event.data().clnum,
                 going: event.data().going,
                 maxGoing: event.data().maxGoing
             });
@@ -403,6 +417,8 @@ export default {
                 time: this.events[i].time,
                 creator: this.events[i].creator,
                 crName: userRef.data().name,
+                class: this.events[i].class,
+                clnum: this.events[i].clnum,
                 going: this.events[i].going,
                 maxGoing: this.events[i].maxGoing
             };

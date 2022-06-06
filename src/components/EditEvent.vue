@@ -10,6 +10,15 @@
             <label for="time">Date & Time</label>
         </span>
         <br><br>
+        <div id="classSelect">
+            <span class="p-float-label">
+                <DropdownMenu id="cl" type="text" v-model="cl" filter :options="subj"
+                    style="width:300px;" />
+                <label for="cl">Course Code (optional)</label>
+                <InputNumber id="max" v-model="clnum" inputStyle="width:80px; text-align:center; margin-left:20px" :min="100" :max="499" placeholder="Number" />
+            </span>
+        </div>
+        <br><br>
         <span class="p-float-label">
             <InputText class="spacing" id="desc" type="text" v-model="desc" />
             <label for="desc">Description</label>
@@ -29,6 +38,7 @@
 </template>
 
 <script>
+import { subjects } from '@/subjectCodes';
 export default {
     name: "EditEvent",
     props: {
@@ -39,8 +49,12 @@ export default {
             title: this.event.title,
             time: this.event.time,
             desc: this.event.desc,
+            cl: this.event.class,
+            clnum: this.event.clnum,
             max: this.event.maxGoing ? this.event.maxGoing : null,
             unlimited: this.event.maxGoing ? false : true, 
+
+            subj: subjects
         }
     },
     methods: {
@@ -61,6 +75,8 @@ export default {
                     title: this.title,
                     time: this.time,
                     desc: this.desc,
+                    class: this.cl,
+                    clnum: this.clnum,
                     maxGoing: this.max,
                 }
 
@@ -69,6 +85,8 @@ export default {
                 this.title = "";
                 this.time = "";
                 this.desc = "";
+                this.class = "None";
+                this.clnum = null;
                 this.max = 1;
                 this.unlimited = false;
             }

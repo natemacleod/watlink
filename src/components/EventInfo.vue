@@ -4,10 +4,11 @@
         {{ event.title }}
     </template>
     <template #subtitle>
-        {{ event.time }}
+        <h4>{{ event.time }}</h4>
+        <div v-if="event.class"><h4>for {{ event.class }} {{ event.clnum }}</h4></div>
     </template>
     <template #content>
-        <h4>{{ event.desc }}</h4>
+        <p>{{ event.desc }}</p>
         <br>
         <p v-if="event.maxGoing === false"> <strong>{{ event.going.length }}</strong> joined</p>
         <p v-else> <strong>{{ event.going.length }}</strong> / {{ event.maxGoing }} joined</p>

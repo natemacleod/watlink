@@ -7,7 +7,7 @@ WatLink is a great place to advertise your group. For study groups, you can add 
 
 ### FAQ
 **How do I set up an event?**
-*Simply click the "Add Event" button and enter a title, description, class (if you're making a study group), and set the maximum number of members (or make it unlimited). Be sure to specify a date and time to meet, or an online chat room (i.e. a Discord server) in the description. If you want, you can make this info visible only to those who join your event.*
+*Simply click the "Add Event" button and enter a title, description, class (if you're making a study group), and set the maximum number of members (or make it unlimited). Be sure to specify a date and time to meet, or an online chat room (i.e. a Discord server) in the description. If you like, you can make this info visible only to those who join your event.*
 
 **How do I join an event?**
 *Just click "Join" next to the event! If you can't see the button, the event is probably full.*
@@ -22,7 +22,7 @@ WatLink is a great place to advertise your group. For study groups, you can add 
 *Yes! WatLink uses Firebase to store authentication details, so your data will be safely stored in Google's servers. WatLink's code does not store your password in any permanent way.*
 
 **Can I delete my data?**
-*Yes! Deleting your account completely wipes all your data from the Firebase servers. It will be like it never existed.*
+*Yes! Deleting your account completely wipes all your data from the Firebase servers*
 
 ## Development
 WatLink was developed in [Vue 3](https://vuejs.org). Vue is a frontend framework based on JS (or TS) that is incredibly easy to learn, and allows you to produce web apps like WatLink extremely quickly. If you're interested in learning Vue, I recommend [this tutorial](https://www.youtube.com/watch?v=qZXt1Aom3Cs). 
