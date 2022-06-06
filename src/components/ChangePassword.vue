@@ -1,17 +1,17 @@
 <template>
     <form id="changePass">
         <span class="p-float-label">
-        <PasswordInput id="cpass" :feedback="false" toggleMask inputStyle="width:300px;" v-model="cpass" />
+        <PasswordInput id="cpass" :feedback="false" toggleMask inputStyle="width:340px;" v-model="cpass" />
         <label for="cpass">Current Password</label>
         </span>
         <br><br>
         <span class="p-float-label">
-        <PasswordInput id="npass" :feedback="false" toggleMask inputStyle="width:300px;" v-model="npass" />
+        <PasswordInput id="npass" :feedback="false" toggleMask inputStyle="width:340px;" v-model="npass" />
         <label for="npass">New Password</label>
         </span>
         <br><br>
         <span class="p-float-label">
-        <PasswordInput id="npass2" :feedback="false" toggleMask inputStyle="width:300px;" v-model="npass2" />
+        <PasswordInput id="npass2" :feedback="false" toggleMask inputStyle="width:340px;" v-model="npass2" />
         <label for="npass2">Repeat New Password</label>
         </span>
         <br><br>   

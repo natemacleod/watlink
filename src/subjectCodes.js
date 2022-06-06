@@ -1,3 +1,4 @@
+// A list of all UWaterloo subject codes for use in dropdown menus
 const subjects = [
     'None',  null  ,
     'ACTSC',  'ACTSC'  ,

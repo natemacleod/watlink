@@ -53,10 +53,8 @@ app.component("DropdownMenu", Dropdown);
 app.mount('#app');
 
 // To-Do List
-// Verification and password reset emails
+// Password reset
+// Make description only visible to people who join
 // Style site [IN PROGRESS]
 // Readme, site title, favicon, version
 // About page
-// Profile pictures (Site can work w/o it, possible 1.1 feature)
-// Event chat? (Site can work w/o it, possible 1.1 feature)
-// Get list of joined people (Will require using 2 arrays to track UIDs and names)

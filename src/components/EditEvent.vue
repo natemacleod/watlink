@@ -65,7 +65,7 @@ export default {
             else if (this.title.length > 50) this.err("Title should be 50 characters or less.");
             else if (this.desc.trim().length === 0) this.err("You must include a description.");
             else if (this.desc.length > 500) this.err("Description should be 500 characters or less.");
-            else if (this.time.trim().length > 150) this.err("Date/time should be 150 characters or less.");
+            else if (this.time.trim().length > 80) this.err("Date/time should be 80 characters or less.");
             else if (!this.max && !this.unlimited) this.err("Please include a maximum number of participants, or check the \"Unlimited\" box.");
             else {
                 if (this.time.length === 0) this.time = "No time specified";
@@ -99,6 +99,11 @@ export default {
 </script>
 
 <style scoped>
+#addForm {
+    margin: 20px 50px 30px 50px;
+    align-items: center;
+}
+
 #maxBar {
     display: flex;
     align-items: center;

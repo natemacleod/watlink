@@ -1,17 +1,17 @@
 <template>
     <form id="changeProfile">
         <span class="p-float-label">
-        <InputText id="email" type="email" v-model="email" style="width:300px;" />
+        <InputText id="email" type="email" v-model="email" style="width:340px;" />
         <label for="email">Email (Private)</label>
         </span>
         <br><br>
         <span class="p-float-label">
-        <InputText id="dn" type="text" v-model="dn" style="width:300px;" />
+        <InputText id="dn" type="text" v-model="dn" style="width:340px;" />
         <label for="dn">Display Name (Public)</label>
         </span>
         <br><br>
         <span class="p-float-label">
-        <PasswordInput id="pass" :feedback="false" toggleMask inputStyle="width:300px;" v-model="pass" />
+        <PasswordInput id="pass" :feedback="false" toggleMask inputStyle="width:340px;" v-model="pass" />
         <label for="pass">Current Password</label>
         </span>
         <br><br>

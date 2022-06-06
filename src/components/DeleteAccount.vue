@@ -2,16 +2,16 @@
     <div id="delete">
         <h3 style="color:red;" >Deleting your account is irreversible.</h3>
         <h3>All your data will be permanently lost, <br>including
-            all events that you have created.</h3>
+            all events you've created.</h3>
         <br>
         <CheckBox id="agree" binary v-model="box" />
-        <label for="agree" id="margin">I understand that this process cannot be undone.</label>
+        <label for="agree" id="margin">I understand that this cannot be undone.</label>
         <br><br><br>
         <span class="p-float-label">
-            <PasswordInput id="pass" :feedback="false" toggleMask inputStyle="width:300px;" v-model="pass" />
+            <PasswordInput id="pass" :feedback="false" toggleMask inputStyle="width:340px;" v-model="pass" />
             <label for="pass">Current Password</label>
         </span>
-        <br>
+        <br><br>
         <PrimeButton class="center p-button-danger" label="Delete Account" icon="pi pi-trash" @click="onSubmit" />
     </div>
 </template>

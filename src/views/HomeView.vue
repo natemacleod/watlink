@@ -1,36 +1,37 @@
 <template>
-    <div id="load" v-if="loading" >
+    <div id="load" v-if="loading">
         <ProgressSpinner />
     </div>
     <div id="site" v-else>
-    <MenuBar :model="items">
-        <template #end>
-            <InputText type="text" v-model="query[0]" placeholder="Search" style="margin-right: 1em;" />
-            <PrimeButton icon="pi pi-filter" label="Advanced Search" @click="toggleAdvSearch" v-if="user" />
-        </template>
-    </MenuBar>
-    <ToastNotif />
-    <div class="home">
-        <DialogBox :modal='true' header="Add Event" v-model:visible="dispAddEvent">
-            <AddEvent @submit-event="addNewEvent" />
-        </DialogBox>
-        <DialogBox :modal='true' header="Edit Event" v-model:visible="dispEditEvent">
-            <EditEvent :event="eventToEdit" @submit-edit="editEvent" />
-        </DialogBox>
-        <DialogBox :modal='true' header="Sign In" v-model:visible="dispSignIn">
-            <SignIn @new-user="createNewUser" @sign-in="signInUser" />
-        </DialogBox>
-        <DialogBox :modal='true' header="Settings" v-model:visible="dispSettings">
-            <SettingsPanel :user="user" @new-pw="newPassword" @edit-profile="editProfile" @delete-account="deleteAcc" />
-        </DialogBox>
-        <DialogBox :modal='true' header="Advanced Search" v-model:visible="dispAdvSearch">
-            <AdvancedSearch :query="query" @set-filters="setFilters" />
-        </DialogBox>
-        <ScrollPanel style="width:100%; height:93.7vh; display:inline-block" class="custom">
-        <EventView :events="events" :user="user" :query="query" @delete-event="deleteEvent" @edit-event="toggleEditEvent"
-            @join-event="joinEvent" @leave-event="leaveEvent" />
-        </ScrollPanel>
-    </div>
+        <MenuBar :model="items">
+            <template #end>
+                <InputText type="text" v-model="query[0]" placeholder="Search" style="margin-right: 1em;" />
+                <PrimeButton icon="pi pi-filter" label="Advanced Search" @click="toggleAdvSearch" v-if="user" />
+            </template>
+        </MenuBar>
+        <ToastNotif />
+        <div class="home">
+            <DialogBox :modal='true' header="Add Event" v-model:visible="dispAddEvent">
+                <AddEvent @submit-event="addNewEvent" />
+            </DialogBox>
+            <DialogBox :modal='true' header="Edit Event" v-model:visible="dispEditEvent">
+                <EditEvent :event="eventToEdit" @submit-edit="editEvent" />
+            </DialogBox>
+            <DialogBox :modal='true' header="Sign In" v-model:visible="dispSignIn">
+                <SignIn @new-user="createNewUser" @sign-in="signInUser" />
+            </DialogBox>
+            <DialogBox :modal='true' header="Settings" v-model:visible="dispSettings">
+                <SettingsPanel :user="user" @new-pw="newPassword" @edit-profile="editProfile"
+                    @delete-account="deleteAcc" />
+            </DialogBox>
+            <DialogBox :modal='true' header="Advanced Search" v-model:visible="dispAdvSearch">
+                <AdvancedSearch :query="query" @set-filters="setFilters" />
+            </DialogBox>
+            <ScrollPanel style="width:100%; height:93.7vh; display:inline-block" class="custom">
+                <EventView :events="events" :user="user" :query="query" @delete-event="deleteEvent"
+                    @edit-event="toggleEditEvent" @join-event="joinEvent" @leave-event="leaveEvent" />
+            </ScrollPanel>
+        </div>
     </div>
 </template>
 
@@ -47,7 +48,7 @@ import { EmailAuthProvider, deleteUser, onAuthStateChanged, createUserWithEmailA
 
 export default {
     name: 'HomeView',
-    components: {   
+    components: {
         EventView,
         AddEvent,
         EditEvent,
@@ -355,7 +356,7 @@ export default {
             if (res) {
                 try {
                     if (info.dn !== this.user.displayName) {
-                        updateProfile(this.user, {displayName: info.dn});
+                        updateProfile(this.user, { displayName: info.dn });
                         this.$toast.add({ severity: 'success', summary: 'Success', detail: 'Profile changed succesfully. You may need to refresh to see changes.', life: 3000 })
                     }
                     if (info.email !== this.user.email) {
@@ -435,7 +436,6 @@ export default {
 </script>
 
 <style>
-
 :root {
     --primary-color: rgb(255, 213, 61) !important;
 }
@@ -452,18 +452,14 @@ export default {
     background-color: #1f1f1f;
 }
 
-.custom .p-scrollpanel-wrapper {
-    border-right: 9px solid #cccccc !important;
-}
-
 .custom .p-scrollpanel-bar {
-    background-color: #1976d2 !important;
+    background-color: #FFE082 !important;
     opacity: 1;
     transition: background-color .3s;
 }
 
 .custom .p-scrollpanel-bar:hover {
-    background-color: #135ba1 !important;
+    background-color: #ffd54f !important;
 }
 
 #load {
@@ -478,5 +474,4 @@ export default {
     display: table-cell;
     vertical-align: middle;
 }
-
 </style>

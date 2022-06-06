@@ -67,7 +67,7 @@ export default {
 
 <style scoped>
 #settings {
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
 }
 </style>
