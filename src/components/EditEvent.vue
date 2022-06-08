@@ -24,6 +24,11 @@
             <label for="desc">Description</label>
         </span>
         <br><br>
+        <span class="p-float-label">
+            <InputText class="spacing" id="pd" type="text" v-model="pd" />
+            <label for="pd">Private Description (optional)</label>
+        </span>
+        <br><br>
         <div id="maxBar">
             <label for="max" id="maxlbl">Maximum Members</label>
             <InputNumber id="max" v-model="max" showButtons buttonLayout="horizontal" :step="1" 
@@ -49,6 +54,7 @@ export default {
             title: this.event.title,
             time: this.event.time,
             desc: this.event.desc,
+            pd: this.event.pd,
             cl: this.event.class,
             clnum: this.event.clnum,
             max: this.event.maxGoing ? this.event.maxGoing : null,
@@ -65,16 +71,21 @@ export default {
             else if (this.title.length > 50) this.err("Title should be 50 characters or less.");
             else if (this.desc.trim().length === 0) this.err("You must include a description.");
             else if (this.desc.length > 500) this.err("Description should be 500 characters or less.");
+            else if (this.pd.trim().length > 300) this.err("Private description should be 300 characters or less.");
+            else if (this.cl != "Don't specify a course" && !this.clnum) this.err("You must include a class number with your subject code");
+            else if (this.cl == "Don't specify a course" && this.clnum) this.err("You must include a subject code with your class number");
             else if (this.time.trim().length > 80) this.err("Date/time should be 80 characters or less.");
             else if (!this.max && !this.unlimited) this.err("Please include a maximum number of participants, or check the \"Unlimited\" box.");
             else {
                 if (this.time.length === 0) this.time = "No time specified";
+                if (this.cl == "Don't specify a course") this.cl = null;
                 if (this.unlimited) this.max = false;
 
                 const newEvent = {
                     title: this.title,
                     time: this.time,
                     desc: this.desc,
+                    pd: this.pd,
                     class: this.cl,
                     clnum: this.clnum,
                     maxGoing: this.max,
@@ -85,7 +96,8 @@ export default {
                 this.title = "";
                 this.time = "";
                 this.desc = "";
-                this.class = "None";
+                this.pd = "";
+                this.class = "Don't specify a course";
                 this.clnum = null;
                 this.max = 1;
                 this.unlimited = false;

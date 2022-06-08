@@ -8,8 +8,12 @@
                 <h4>for {{ event.class }} {{ event.clnum }}</h4>
             </div>
             <br><br>
-            <p style="overflow-wrap: break-word;">{{ event.desc }}</p>
+            <p style="overflow-wrap: break-word;"><i class="pi pi-eye"></i><strong> Public Description: </strong>{{ event.desc }}</p>
             <br>
+            <div id="pdesc" v-if="user && event.going.includes(user.uid)">
+                <p style="overflow-wrap: break-word;"><i class="pi pi-eye-slash"></i><strong> Private Description: </strong>{{ event.pd }}</p>
+                <br>
+            </div>
             <p v-if="event.maxGoing === false"> <strong>{{ event.going.length }}</strong> joined</p>
             <p v-else> <strong>{{ event.going.length }}</strong> / {{ event.maxGoing }} joined</p>
             <br>
@@ -53,20 +57,22 @@
             <p>Created by <strong>{{ event.crName }}</strong></p>
         </template>
         <template #footer>
-            <PrimeButton icon="pi pi-plus" label="Expand" style="display: block; width: 368px; margin-bottom: .5em;"
-                @click="toggleDetails" />
-            <PrimeButton icon="pi pi-user-plus" label="Join" @click="$emit('join-event', event.id)"
-                style="margin-right: .5em; width: 118px;" v-if="user && !event.going.includes(user.uid)" />
-            <PrimeButton icon="pi pi-user-minus" label="Leave" @click="$emit('leave-event', event.id)"
-                style="margin-right: .5em; width: 118px;" v-if="user && event.going.includes(user.uid)" />
-            <PrimeButton icon="pi pi-user-plus" label="Sign In to Join" disabled="disabled"
-                style="margin-right: .5em; width: 368px;" v-if="!user" />
-            <div id="footer" v-if="user && event.creator === user.uid">
-                <PrimeButton icon="pi pi-pencil" label="Edit" class="p-button-secondary"
-                    @click="$emit('edit-event', event)" style="width: 117px;" />
-                <PrimeButton icon="pi pi-trash" label="Delete" class="p-button-danger"
-                    style="margin-left: .5em; width: 117px" @click="deleteEvent" />
-                <ConfirmPopup />
+            <div id="foot">
+                <PrimeButton icon="pi pi-plus" label="Expand" style="display: block; width: 368px; margin-bottom: .5em;"
+                    @click="toggleDetails" />
+                <PrimeButton icon="pi pi-user-plus" label="Join" @click="$emit('join-event', event.id)"
+                    style="margin-right: .5em; width: 118px;" v-if="user && !event.going.includes(user.uid)" />
+                <PrimeButton icon="pi pi-user-minus" label="Leave" @click="$emit('leave-event', event.id)"
+                    style="margin-right: .5em; width: 118px;" v-if="user && event.going.includes(user.uid)" />
+                <PrimeButton icon="pi pi-user-plus" label="Sign In to Join" disabled="disabled"
+                    style="margin-right: .5em; width: 368px;" v-if="!user" />
+                <div id="footer" v-if="user && event.creator === user.uid">
+                    <PrimeButton icon="pi pi-pencil" label="Edit" class="p-button-secondary"
+                        @click="$emit('edit-event', event)" style="width: 117px;" />
+                    <PrimeButton icon="pi pi-trash" label="Delete" class="p-button-danger"
+                        style="margin-left: .5em; width: 117px" @click="deleteEvent" />
+                    <ConfirmPopup />
+                </div>
             </div>
         </template>
     </CardContainer>
@@ -111,6 +117,7 @@ export default {
 .constsize {
     border-radius: 10px !important;
     height: 500px;
+    position: relative;
 }
 
 #footer {
@@ -120,5 +127,10 @@ export default {
 #details {
     min-width: 400px;
     max-width: 45vw;
+}
+
+#foot {
+    position: absolute;
+    bottom: 5%;
 }
 </style>

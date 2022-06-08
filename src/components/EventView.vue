@@ -43,6 +43,8 @@ export default {
             if (e.title.toLowerCase().includes(q) || (e.time != "No time specified" && e.time.toLowerCase().includes(q)) || e.desc.toLowerCase().includes(q) ||
                 (e.class + "" + e.clnum).toLowerCase().includes(q) || (e.class + " " + e.clnum).toLowerCase().includes(q)) {
                 if (!this.user) return true;
+                else if (this.query[6] != "Don't specify a course" && e.class != this.query[6]) return false;
+                else if (this.query[7] && e.clnum != this.query[7]) return false;
                 else return (this.sat1(e) && (this.query[2] === this.sat2(e) || this.query[3] !== this.sat2(e)) && (this.query[4] === this.sat4(e) || this.query[5] !== this.sat4(e)));
             } else return false;
         },

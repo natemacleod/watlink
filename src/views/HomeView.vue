@@ -1,6 +1,8 @@
 <template>
     <div id="load" v-if="loading">
-        <ProgressSpinner />
+        <div id="spin">
+            <ProgressSpinner />
+        </div>
     </div>
     <div id="site" v-else>
         <MenuBar :model="items">
@@ -61,7 +63,7 @@ export default {
             events: [],
             user: null,
 
-            query: ["", true, true, true, true, true],
+            query: ["", true, true, true, true, true, "Don't specify a course", null],
 
             dispAddEvent: false,
             dispSignIn: false,
@@ -112,6 +114,7 @@ export default {
                 const docRef = await addDoc(collection(db, "events"), {
                     title: e.title,
                     desc: e.desc,
+                    pd: e.pd,
                     time: e.time,
                     creator: this.user.uid,
                     class: e.class,
@@ -124,6 +127,7 @@ export default {
                     id: docRef.id,
                     title: e.title,
                     desc: e.desc,
+                    pd: e.pd,
                     time: e.time,
                     creator: this.user.uid,
                     crName: this.user.displayName,
@@ -149,6 +153,7 @@ export default {
                     title: e.title,
                     time: e.time,
                     desc: e.desc,
+                    pd: e.pd,
                     class: e.class,
                     clnum: e.clnum,
                     maxGoing: e.maxGoing
@@ -164,6 +169,7 @@ export default {
                             title: e.title,
                             time: e.time,
                             desc: e.desc,
+                            pd: e.pd,
                             class: e.class,
                             clnum: e.clnum,
                             creator: ev.creator,
@@ -213,6 +219,7 @@ export default {
                             title: ev.title,
                             time: ev.time,
                             desc: ev.desc,
+                            pd: ev.pd,
                             creator: ev.creator,
                             crName: ev.crName,
                             class: ev.class,
@@ -223,7 +230,9 @@ export default {
                     } else return ev;
                 });
 
-                this.$toast.add({ severity: 'success', summary: 'Success', detail: 'You have joined ' + await eventSnap.data().title, life: 3000 });
+                const title = await eventSnap.data().title;
+
+                this.$toast.add({ severity: 'success', summary: 'Success', detail: 'You have joined ' + (title.length > 30 ? title.substring(0, 29) + "..." : title), life: 3000 });
             } catch (err) {
                 if (err.message === "This event is full.") this.$toast.add({ severity: 'error', summary: 'Event Full', detail: 'Sorry, this event is already full', life: 3000 });
                 else {
@@ -253,6 +262,7 @@ export default {
                             title: ev.title,
                             time: ev.time,
                             desc: ev.desc,
+                            pd: ev.pd,
                             creator: ev.creator,
                             crName: ev.crName,
                             class: ev.class,
@@ -263,7 +273,9 @@ export default {
                     } else return ev;
                 });
 
-                this.$toast.add({ severity: 'success', summary: 'Success', detail: 'You have left ' + await eventSnap.data().title, life: 3000 });
+                const title = await eventSnap.data().title;
+
+                this.$toast.add({ severity: 'success', summary: 'Success', detail: 'You have left ' + (title.length > 30 ? title.substring(0, 29) + "..." : title), life: 3000 });
             } catch (err) {
                 console.error("Error leaving event: ", err);
                 this.$toast.add({ severity: 'error', summary: 'Error', detail: 'An error occurred. Please try again.', life: 3000 });
@@ -400,6 +412,7 @@ export default {
                 id: event.id,
                 title: event.data().title,
                 desc: event.data().desc,
+                pd: event.data().pd,
                 time: event.data().time,
                 creator: event.data().creator,
                 class: event.data().class,
@@ -415,6 +428,7 @@ export default {
                 id: this.events[i].id,
                 title: this.events[i].title,
                 desc: this.events[i].desc,
+                pd: this.events[i].pd,
                 time: this.events[i].time,
                 creator: this.events[i].creator,
                 crName: userRef.data().name,
@@ -463,15 +477,29 @@ export default {
 }
 
 #load {
+    width: 100%;
+    height: 100%;
+    background-color: #1f1f1f;
+}
+
+#spin {
     margin: auto;
     width: 10%;
     display: table;
     height: 100vh;
 }
 
-#load * {
+#spin * {
     width: 100%;
     display: table-cell;
     vertical-align: middle;
 }
+
+.p-progress-spinner-circle {
+    stroke: #ffd54f !important;
+    -webkit-animation: p-progress-spinner-dash 1.5s ease-in-out infinite;
+    animation: p-progress-spinner-dash 1.5s ease-in-out infinite;
+}
+
+
 </style>

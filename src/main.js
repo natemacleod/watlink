@@ -54,7 +54,7 @@ app.mount('#app');
 
 // To-Do List
 // Password reset
-// Make description only visible to people who join
 // Style site [IN PROGRESS]
-// Readme, site title, favicon, version
+// Readme, site title, favicon, version [IN PROGRESS]
 // About page
+// Launch (set up hosting w/ firebase, domain (watlink.me?), etc.)

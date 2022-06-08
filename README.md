@@ -29,7 +29,7 @@ WatLink was developed in [Vue 3](https://vuejs.org). Vue is a frontend framework
 
 WatLink uses [Firebase](https://firebase.google.com) for its backend. Firebase is a backend-as-a-service tool (run by Google) that provides developers with a premade API to access authentication services, NoSQL databases, cloud storage, and more. It made creating the authentication and database systems much simpler.
 
-WatLink's UX uses some components from [PrimeVue](https://www.primefaces.org/primevue), a UI library designed for easy use with Vue's component-based structure. The components look relatively good out of the box, but it is unfortunately not very easy to customize their CSS. 
+WatLink's UX uses some components from [PrimeVue](https://www.primefaces.org/primevue), a UI library designed for easy use with Vue's component-based structure.
 
 ## Dev Server Setup
 1. Use an editor with Vue support (I recommend VSCode with the Volar extension)
