@@ -1,5 +1,7 @@
 # WatLink
 
+!(WatLink logo)[./logo/full_logo.jpg]
+
 ## About
 WatLink is a group finder app designed for University of Waterloo students. Need a study group, mock interview session, or just want to hang out? WatLink has you covered. Setting up a listing takes less than a minute, and you can browse the site without even signing up for an account. 
 

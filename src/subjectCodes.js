@@ -1,6 +1,6 @@
 // A list of all UWaterloo subject codes for use in dropdown menus
 const subjects = [
-    'Don\'t specify a course',  null  ,
+    'Don\'t specify a course',  null ,
     'ACTSC',  'ACTSC'  ,
     'AE',  'AE'  ,
     'AFM',  'AFM'  ,

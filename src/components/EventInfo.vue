@@ -8,10 +8,13 @@
                 <h4>for {{ event.class }} {{ event.clnum }}</h4>
             </div>
             <br><br>
-            <p style="overflow-wrap: break-word;"><i class="pi pi-eye"></i><strong> Public Description: </strong>{{ event.desc }}</p>
+            <p style="overflow-wrap: break-word;"><i class="pi pi-eye"></i><strong> Public Description: </strong>{{
+                    event.desc
+            }}</p>
             <br>
             <div id="pdesc" v-if="user && event.going.includes(user.uid)">
-                <p style="overflow-wrap: break-word;"><i class="pi pi-eye-slash"></i><strong> Private Description: </strong>{{ event.pd }}</p>
+                <p style="overflow-wrap: break-word;"><i class="pi pi-eye-slash"></i><strong> Private Description:
+                    </strong>{{ event.pd }}</p>
                 <br>
             </div>
             <p v-if="event.maxGoing === false"> <strong>{{ event.going.length }}</strong> joined</p>
@@ -19,17 +22,19 @@
             <br>
             <p>Created by <strong>{{ event.crName }}</strong></p>
             <br><br>
-            <PrimeButton icon="pi pi-user-plus" label="Join" @click="$emit('join-event', event.id)"
-                style="margin-right: .5em; width: 32%;" v-if="user && !event.going.includes(user.uid)" />
-            <PrimeButton icon="pi pi-user-minus" label="Leave" @click="$emit('leave-event', event.id)"
-                style="margin-right: .5em; width: 32%;" v-if="user && event.going.includes(user.uid)" />
-            <PrimeButton icon="pi pi-user-plus" label="Sign In to Join" disabled="disabled"
-                style="margin-right: .5em; width: 96%;" v-if="!user" />
-            <PrimeButton icon="pi pi-pencil" label="Edit" class="p-button-secondary" @click="$emit('edit-event', event)"
-                style="width: 32%;" v-if="user && event.creator === user.uid" />
-            <PrimeButton icon="pi pi-trash" label="Delete" class="p-button-danger" style="margin-left: .5em; width: 32%"
-                v-if="user && event.creator === user.uid" @click="deleteEvent" />
-            <ConfirmPopup />
+            <div id="buttons">
+                <PrimeButton icon="pi pi-user-plus" label="Join" @click="$emit('join-event', event.id)"
+                    style="margin-right: .5em; width: 32%;" v-if="user && !event.going.includes(user.uid)" />
+                <PrimeButton icon="pi pi-user-minus" label="Leave" @click="$emit('leave-event', event.id)"
+                    style="margin-right: .5em; width: 32%;" v-if="user && event.going.includes(user.uid)" />
+                <PrimeButton label="Sign In to Join" disabled="disabled" style="width: 100%;" v-if="!user" />
+                <PrimeButton icon="pi pi-pencil" label="Edit" class="p-button-secondary"
+                    @click="$emit('edit-event', event)" style="width: 32%;" v-if="user && event.creator === user.uid" />
+                <PrimeButton icon="pi pi-trash" label="Delete" class="p-button-danger"
+                    style="margin-left: .5em; width: 32%" v-if="user && event.creator === user.uid"
+                    @click="deleteEvent" />
+                <ConfirmPopup />
+            </div>
         </div>
     </DialogBox>
     <CardContainer class="constsize">
@@ -64,8 +69,7 @@
                     style="margin-right: .5em; width: 118px;" v-if="user && !event.going.includes(user.uid)" />
                 <PrimeButton icon="pi pi-user-minus" label="Leave" @click="$emit('leave-event', event.id)"
                     style="margin-right: .5em; width: 118px;" v-if="user && event.going.includes(user.uid)" />
-                <PrimeButton icon="pi pi-user-plus" label="Sign In to Join" disabled="disabled"
-                    style="margin-right: .5em; width: 368px;" v-if="!user" />
+                <PrimeButton label="Sign In to Join" disabled="disabled" style="width: 368px;" v-if="!user" />
                 <div id="footer" v-if="user && event.creator === user.uid">
                     <PrimeButton icon="pi pi-pencil" label="Edit" class="p-button-secondary"
                         @click="$emit('edit-event', event)" style="width: 117px;" />
@@ -133,4 +137,10 @@ export default {
     position: absolute;
     bottom: 5%;
 }
+
+#buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 </style>

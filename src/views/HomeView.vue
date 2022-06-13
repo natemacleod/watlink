@@ -6,6 +6,9 @@
     </div>
     <div id="site" v-else>
         <MenuBar :model="items">
+            <template #start>
+                <img src="../../logo/logo.png" id="logo" />
+            </template>
             <template #end>
                 <InputText type="text" v-model="query[0]" placeholder="Search" style="margin-right: 1em;" />
                 <PrimeButton icon="pi pi-filter" label="Advanced Search" @click="toggleAdvSearch" v-if="user" />
@@ -76,10 +79,6 @@ export default {
             loading: true,
 
             items: [
-                {
-                    label: "Home",
-                    icon: 'pi pi-fw pi-home',
-                },
                 {
                     label: 'Add',
                     icon: 'pi pi-fw pi-plus',
@@ -501,5 +500,19 @@ export default {
     animation: p-progress-spinner-dash 1.5s ease-in-out infinite;
 }
 
+.p-menubar-start {
+    width: 51.2px;
+    margin-right: 20px;
+    margin-left: 5px;
+}
+
+.p-menubar-end {
+    margin-right: 5px;
+}
+
+#logo {
+    width: 100%;
+    height: 10%;
+}
 
 </style>
