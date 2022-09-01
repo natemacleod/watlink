@@ -1,5 +1,7 @@
 # WatLink
 
+Note: This project is currently in a stable closed beta state. It is not yet available for use.
+
 ![WatLink logo](./logo/full_logo.jpg)
 
 ## About
